@@ -4,7 +4,25 @@ output:
   html_document:
     toc: FALSE
 ---
+<img src="C:/Users/Gabriella Veytsel/Desktop/MADA 2021/Gabriella_Veytsel-MADA-portfolio/Veytsel.jpg" alt="drawing" width="200"/> 
 
+# **Background**
+My name is Gabriella Veytsel and I'm a 2nd year PhD student in the Institute of Bioinformatics (Bahl Lab). I'm originally from Chicago, IL. I have a BS in Public Health and an MPH in Epidemiology from the University of Washington. I LOVE public health and have experience at the county, state, and federal level. During my 2-year CDC fellowship, I worked on building a one health surveillance system for harmful algal blooms (HABs), creating a public health toolkit for HABs (environmental monitoring, management, and response), co-led a national working group, and developed surveillance summary reports. I also had a 2-month detail on the 2018-2020 Ebola response before I transitioned to the Rabies Prevention Branch. Over time, I realized I wanted to become a stronger data scientist and decided to pursue a PhD. My learning objectives are:
 
-Add some text and a figure describing myself.
+* Become proficient in R (stop avoiding algorithms) and automate analyses
+* Be able to create tools, such as dashboards
+* Be able to use modern tools, such as Github
+* Know how to identify the most appropriate analytic method given research question and dataset
+* Know how to work with a messy dataset (poor study design, changing case definitions, etc.)
+* Improve data visualization skills 
+
+# **Research Interests**
+I'm primarily interested in infectious disease epidemiology: surviellance, prevention, and response. I endeavor to integrate different types of data (e.g., clinical, epidemiological, genomic, environmental), practice a One Health approach, and strengthen academic-practice partnerships. I'm interested in infectious diseases that are important to wildlife conservation, public health (especially marginalized populations), and livestock well-being; a multi-host system or zoonotic pathogen is even more exciting. I've been working on a rabies phylogeography project for a few months, which has been great practice for BEAST, R, and data visualization. My dissertation will be on COVID phylodynamics.
+
+# **Personal**
+* I volunteered at the Atlanta Wild Animal Rescue Effort (AWARE) before COVID started. My favorite animal to work with, weirdly enough, was opposums.
+* I love the MCU, books, music, food, animals, road trips, and sports.
+
+# **Link**
+[Nextstrain](https://nextstrain.org/) is a powerful tool that I've been exploring recently for my dissertation project.
 
