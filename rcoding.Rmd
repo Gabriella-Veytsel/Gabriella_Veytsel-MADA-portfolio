@@ -5,6 +5,103 @@ output:
     toc: FALSE
 ---
 
-This will contain the future R coding exercise.
+```{r}
+library(dslabs) #contains gapminder
+library(tidyverse)
+```
+
+```{r}
+#Explore gapminder
+##################
+
+help(gapminder) #pull up the help page for gapminder
+str(gapminder) #overview of data structure
+summary(gapminder) #summary of data
+class(gapminder) #type of object = data.frame
+```
+
+```{r}
+#Create subset "africadata" for African countries: check structure and summary
+africadata <- gapminder %>%
+  filter(continent == "Africa")
+str(africadata) 
+summary(africadata) 
+```
+
+```{r}
+#Create 2 new subsets
+#Containing only infant_mortality and life_expectancy
+infant_mor <- africadata %>%
+  select(c(infant_mortality, life_expectancy))
+
+#Containing only population and life_expectancy
+pop <- africadata %>%
+  select(c(population, life_expectancy))
+```
+
+```{r}
+#check structure and summary of 2 new subsets
+str(infant_mor)
+summary(infant_mor)
+
+str(pop)
+summary(pop)
+```
+
+```{r}
+#Plot life expectancy as a function of infant mortality and as a function of population size. 
+#Make two separate plots. 
+#Plot the data as points. 
+#For the plot with population size on the x-axis, set the x-axis to a log scale.
+
+ggplot(infant_mor, aes(x= infant_mortality, y = life_expectancy)) +
+  geom_point() #negative correlation
+
+ggplot(pop, aes(x= population, y=life_expectancy)) + 
+  geom_point() + 
+  scale_x_continuous(trans='log2') #positive correlation and streaks of data
+```
+
+```{r}
+#Which years having missing infant_mortality data?
+missing <- africadata %>% 
+  select(infant_mortality, year) %>%
+  group_by(year) %>%
+  summarize(count = sum(is.na(infant_mortality)))
+
+view(missing) #1960-1981 and 2016 have missing infant mortality data
+```
+
+```{r}
+#Subset africadata by year = 2000
+year2000 <- africadata %>%
+  filter(year == 2000)
+
+str(year2000) #51 obs, 9 variables
+summary(year2000)
+```
+
+```{r}
+#Same plots as before for year2000
+ggplot(year2000, aes(x= infant_mortality, y = life_expectancy)) +
+  geom_point() #still negative correlation
+
+ggplot(year2000, aes(x= population, y=life_expectancy)) + 
+  geom_point() + 
+  scale_x_continuous(trans='log2') #no noticable correlation
+```
+
+```{r}
+#For 2000 subset, fit two linear models
+fit1 = lm(life_expectancy~infant_mortality, data = year2000) #y~x (predictor = infant_mortality)
+fit2 = lm(life_expectancy~population, data = year2000) #y~x (predictor = population)
+
+summary(fit1) #Life expectancy decreases by -0.19 years per additional 1 infant death per 1000 persons. This relationship is statistically significant (p-value = 2.83E-8).
+
+summary(fit2) #Life expenctancy increase by 2.76E-8 years per additional 1 person in the population. However, this relationship is not statistically significant (p-value = 0.616).
+```
+
+
+
 
 
