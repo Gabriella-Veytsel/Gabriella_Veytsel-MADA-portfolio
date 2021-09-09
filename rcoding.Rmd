@@ -102,7 +102,7 @@ summary(fit1) #Life expectancy decreases by -0.19 years per additional 1 infant 
 summary(fit2) #Life expenctancy increase by 2.76E-8 years per additional 1 person in the population. However, this relationship is not statistically significant (p-value = 0.616).
 ```
 ```{r}
-#Additional analyses - checking the relationship between life expectancy and other variables in the dataset
+#Additional analyses by Minaz Mawani - checking the relationship between life expectancy and other variables in the dataset
 ggplot(year2000, aes(x= gdp, y = life_expectancy)) +
   geom_point() +
  scale_x_continuous(trans='log2')
