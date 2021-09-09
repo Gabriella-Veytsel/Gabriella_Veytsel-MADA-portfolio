@@ -8,6 +8,7 @@ output:
 ```{r}
 library(dslabs) #contains gapminder
 library(tidyverse)
+library(broom)
 ```
 
 ```{r}
@@ -100,8 +101,63 @@ summary(fit1) #Life expectancy decreases by -0.19 years per additional 1 infant 
 
 summary(fit2) #Life expenctancy increase by 2.76E-8 years per additional 1 person in the population. However, this relationship is not statistically significant (p-value = 0.616).
 ```
+```{r}
+#Additional analyses - checking the relationship between life expectancy and other variables in the dataset
+ggplot(year2000, aes(x= gdp, y = life_expectancy)) +
+  geom_point() +
+ scale_x_continuous(trans='log2')
+
+```
+```{r}
+
+#checking relationship between GDP and life expectancy, region wise, shows somewhat linear pattern
+ggplot(year2000, aes(x= gdp, y = life_expectancy, color = region)) +
+  geom_point() +
+  scale_x_continuous(trans='log2')
 
 
 
+```
+```{r}
+#checking relationship between gdp and population - nice linear relationship showing positive correlation between size of population and GDP
+ggplot(year2000, aes(x= population, y = gdp, color = region)) +
+  geom_point() +
+  scale_y_continuous(trans='log2') +
+  scale_x_continuous(trans= 'log2')
+
+```
+
+```{r}
+
+#checking relationship between region and life expectancy, Northern Africa has the highest compared to Southern Africa having lowest life expectancy
+
+ggplot(year2000, aes(x= region, y = life_expectancy)) +
+  geom_boxplot() 
+```
 
 
+```{r}
+#region as a factor variable
+year2000$region.f <- factor(year2000$region)
+is.factor(year2000$region.f)
+
+```
+
+
+```{r}
+#Fitting two more linear models while adjusting for gdp and regio vs. region alone.    
+fit3 = lm(life_expectancy~ infant_mortality + gdp + region , data = year2000)
+
+summary(fit3)# a unit increase in infant mortality would lead to a decrease of 0.173 years in life expectancy while adjusting for gdp and region. the model is statistically significant and explains 68% of the variability in the outcome.
+
+fit4 = lm(life_expectancy~ infant_mortality + region , data = year2000)
+
+summary(fit4) #a unit increase in infant mortality would lead to a decrease of 0.174 years in life expectancy while adjusting for region. the model is statistically significant and explains 69% of the variability in the outcome.
+
+```
+```{r}
+#using broom and tidy function to convert the output in a presentable form
+tidy(fit4)
+
+
+```
