@@ -42,6 +42,74 @@
     </style>
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #303030; color: #cccccc; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #cccccc; background-color: #303030; }
+code > span.kw { color: #f0dfaf; } /* Keyword */
+code > span.dt { color: #dfdfbf; } /* DataType */
+code > span.dv { color: #dcdccc; } /* DecVal */
+code > span.bn { color: #dca3a3; } /* BaseN */
+code > span.fl { color: #c0bed1; } /* Float */
+code > span.ch { color: #dca3a3; } /* Char */
+code > span.st { color: #cc9393; } /* String */
+code > span.co { color: #7f9f7f; } /* Comment */
+code > span.ot { color: #efef8f; } /* Other */
+code > span.al { color: #ffcfaf; } /* Alert */
+code > span.fu { color: #efef8f; } /* Function */
+code > span.er { color: #c3bf9f; } /* Error */
+code > span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+code > span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code > span.sc { color: #dca3a3; } /* SpecialChar */
+code > span.vs { color: #cc9393; } /* VerbatimString */
+code > span.ss { color: #cc9393; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #f0dfaf; } /* ControlFlow */
+code > span.op { color: #f0efd0; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #7f9f7f; } /* Documentation */
+code > span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code > span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code > span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -273,7 +341,182 @@ $(document).ready(function () {
 </div>
 
 
-<p>This will contain the future Tidy Tuesday exercise.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidytuesdayR&quot;</span>)
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(ggplot2)</code></pre></div>
+<p>Load the data</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">papers &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/papers.csv&#39;</span>)
+authors &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/authors.csv&#39;</span>)
+programs &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/programs.csv&#39;</span>)
+paper_authors &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/paper_authors.csv&#39;</span>)
+paper_programs &lt;-<span class="st"> </span>readr::<span class="kw">read_csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/paper_programs.csv&#39;</span>)</code></pre></div>
+<p>Examine first few rows of data</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(authors)
+<span class="kw">head</span>(papers)
+<span class="kw">head</span>(programs)
+<span class="kw">head</span>(paper_authors)
+<span class="kw">head</span>(paper_programs)</code></pre></div>
+<p>Merge datasets</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colnames</span>(papers) <span class="co">#key = paper </span>
+<span class="kw">colnames</span>(paper_authors) <span class="co">#key = paper</span>
+<span class="kw">colnames</span>(authors) <span class="co">#key = author</span>
+<span class="kw">colnames</span>(paper_programs) <span class="co">#key = paper</span>
+<span class="kw">colnames</span>(programs) <span class="co">#key = program</span>
+
+joined_df &lt;-<span class="st"> </span><span class="kw">left_join</span>(papers, paper_authors) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">left_join</span>(authors) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">left_join</span>(paper_programs) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">left_join</span>(programs)</code></pre></div>
+<p>This form is tidy</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(joined_df)</code></pre></div>
+<pre><code>##     paper                year          month           title          
+##  Length:130081      Min.   :1973   Min.   : 1.000   Length:130081     
+##  Class :character   1st Qu.:2005   1st Qu.: 4.000   Class :character  
+##  Mode  :character   Median :2013   Median : 6.000   Mode  :character  
+##                     Mean   :2010   Mean   : 6.515                     
+##                     3rd Qu.:2018   3rd Qu.: 9.000                     
+##                     Max.   :2021   Max.   :12.000                     
+##     author              name            user_nber          user_repec       
+##  Length:130081      Length:130081      Length:130081      Length:130081     
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##    program          program_desc       program_category  
+##  Length:130081      Length:130081      Length:130081     
+##  Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character  
+##                                                          
+##                                                          
+## </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tail</span>(joined_df)</code></pre></div>
+<pre><code>## # A tibble: 6 x 11
+##   paper  year month title author name  user_nber user_repec program program_desc
+##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;       
+## 1 h0132  2001     1 A Wo~ h0132~ Leon~ &lt;NA&gt;      &lt;NA&gt;       DAE     Development~
+## 2 h0133  2001     4 What~ h0090~ John~ john_wal~ &lt;NA&gt;       DAE     Development~
+## 3 h0134  2001     7 The ~ h0002~ Mich~ michael_~ pha740     DAE     Development~
+## 4 h0135  2001     8 The ~ h0071~ Jose~ joseph_f~ &lt;NA&gt;       DAE     Development~
+## 5 h0136  2001    11 The ~ h0090~ John~ john_wal~ &lt;NA&gt;       DAE     Development~
+## 6 h0137  2001    12 Shor~ h0137~ Howa~ howard_b~ &lt;NA&gt;       DAE     Development~
+## # ... with 1 more variable: program_category &lt;chr&gt;</code></pre>
+<p>Examine program variables: program, description of program, program category</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(joined_df$program)</code></pre></div>
+<pre><code>## 
+##    AG    AP    CF    CH   DAE   DEV    ED   EEE   EFG    HC    HE   IFM    IO 
+##  4237  6804  6153  4502  3370  3849  4311  3084 13113  4678  6671  8570  4492 
+##   ITI    LE    LS    ME    PE   POL    PR   TWP 
+##  7125  2793 14084  7121 13967  3557  6084   986</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(joined_df$program_desc)</code></pre></div>
+<pre><code>## 
+##                                  Asset Pricing 
+##                                           6804 
+##                                       Children 
+##                                           4502 
+##                              Corporate Finance 
+##                                           6153 
+##                          Development Economics 
+##                                           3849 
+##            Development of the American Economy 
+##                                           3370 
+##               Economic Fluctuations and Growth 
+##                                          13113 
+##                             Economics of Aging 
+##                                           4237 
+##                         Economics of Education 
+##                                           4311 
+##               Environment and Energy Economics 
+##                                           3084 
+##                                    Health Care 
+##                                           4678 
+##                               Health Economics 
+##                                           6671 
+##                        Industrial Organization 
+##                                           4492 
+##       International Finance and Macroeconomics 
+##                                           8570 
+##             International Trade and Investment 
+##                                           7125 
+##                                  Labor Studies 
+##                                          14084 
+##                              Law and Economics 
+##                                           2793 
+##                             Monetary Economics 
+##                                           7121 
+##                            Political Economics 
+##                                           3557 
+## Productivity, Innovation, and Entrepreneurship 
+##                                           6084 
+##                               Public Economics 
+##                                          13967 
+##                       Technical Working Papers 
+##                                            986</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(joined_df$program_category, <span class="dt">useNA =</span> <span class="st">&quot;ifany&quot;</span>) <span class="co">#should be a factor</span></code></pre></div>
+<pre><code>## 
+##             Finance Macro/International               Micro                &lt;NA&gt; 
+##               12957               35929               79679                1516</code></pre>
+<p>Cleaning and wrangling</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cleaned_data &lt;-<span class="st"> </span>joined_df %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">program_category =</span> <span class="kw">as.factor</span>(program_category))</code></pre></div>
+<p>What is the trend of working papers over time? Seems like increasing every year, with a pretty even breakdown by month. Could do stat test.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NumPapers &lt;-<span class="st"> </span>cleaned_data %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(year, month) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">NumberofPapers =</span> <span class="kw">n_distinct</span>(paper)) <span class="co">#to avoid double counting same paper when two authors</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;year&#39;. You can override using the `.groups` argument.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data=</span>NumPapers, <span class="kw">aes</span>(<span class="dt">x=</span>year, <span class="dt">y=</span>NumberofPapers, <span class="dt">fill =</span> <span class="kw">as.factor</span>(month))) +
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>) </code></pre></div>
+<p><img src="tidytuesday_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Who has the most working papers total? Jonathan Gruber</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cleaned_data %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(name) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">NumberofPapers =</span> <span class="kw">n</span>()) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(NumberofPapers)) </code></pre></div>
+<pre><code>## # A tibble: 15,398 x 2
+##    name               NumberofPapers
+##    &lt;chr&gt;                       &lt;int&gt;
+##  1 Jonathan Gruber               359
+##  2 James J Heckman               331
+##  3 Daron Acemoglu                308
+##  4 Janet M Currie                306
+##  5 Michael D Bordo               297
+##  6 Edward L Glaeser              291
+##  7 Joshua Aizenman               284
+##  8 Martin S Feldstein            272
+##  9 Andrei Shleifer               242
+## 10 Alan M Taylor                 239
+## # ... with 15,388 more rows</code></pre>
+<p>Who has the most working papers published in one month? Janet M Currie</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cleaned_data %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(year, month, name) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">NumberofPapers =</span> <span class="kw">n</span>()) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(NumberofPapers)) </code></pre></div>
+<pre><code>## # A tibble: 62,049 x 4
+## # Groups:   year, month [576]
+##     year month name                    NumberofPapers
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;                            &lt;int&gt;
+##  1  2020     1 Janet M Currie                      20
+##  2  2018    10 Solomon M Hsiang                    19
+##  3  2020     5 Kosali Ilayperuma Simon             17
+##  4  2017     4 Fatih Guvenen                       16
+##  5  2019     5 Xavier D&#39;Haultfoeuille              16
+##  6  2019     6 David Card                          16
+##  7  2020     3 Wei Xiong                           16
+##  8  2020     4 Johannes C Stroebel                 16
+##  9  2020     4 Theresa Kuchler                     16
+## 10  2020     5 Constantine Yannelis                16
+## # ... with 62,039 more rows</code></pre>
+<p>What kind of working papers are being published by the top 5 authors? Mostly microeconomics.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">TopAuthors &lt;-<span class="st"> </span>cleaned_data %&gt;%
+<span class="st">  </span><span class="kw">group_by</span>(program_category) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(name %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Jonathan Gruber&quot;</span>, <span class="st">&quot;James J Heckman&quot;</span>, <span class="st">&quot;Daron Acemoglu&quot;</span>, <span class="st">&quot;Janet M Currie&quot;</span>, <span class="st">&quot;Michael D Bordo&quot;</span>)) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">NumberofPapers =</span> <span class="kw">n</span>())
+
+<span class="kw">ggplot</span>(<span class="dt">data=</span>TopAuthors, <span class="kw">aes</span>(<span class="dt">x=</span>program_category, <span class="dt">y=</span>NumberofPapers)) +
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>) +
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Program Categories of the Working Papers Published by the Top 5 Authors&quot;</span>)</code></pre></div>
+<p><img src="tidytuesday_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 
 
 

@@ -5,5 +5,99 @@ output:
     toc: FALSE
 ---
 
-This will contain the future Tidy Tuesday exercise.
+```{r, warning = FALSE, message = FALSE, results = FALSE}
+library("tidytuesdayR")
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+```
+Load the data
+```{r, warning = FALSE, message = FALSE, results = FALSE}
+papers <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/papers.csv')
+authors <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/authors.csv')
+programs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/programs.csv')
+paper_authors <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/paper_authors.csv')
+paper_programs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/paper_programs.csv')
+```
+
+Examine first few rows of data
+```{r, , warning = FALSE, message = FALSE, results = FALSE}
+head(authors)
+head(papers)
+head(programs)
+head(paper_authors)
+head(paper_programs)
+```
+
+Merge datasets
+```{r, warning = FALSE, message = FALSE, results = FALSE}
+colnames(papers) #key = paper 
+colnames(paper_authors) #key = paper
+colnames(authors) #key = author
+colnames(paper_programs) #key = paper
+colnames(programs) #key = program
+
+joined_df <- left_join(papers, paper_authors) %>% 
+  left_join(authors) %>% 
+  left_join(paper_programs) %>% 
+  left_join(programs)
+```
+
+This form is tidy
+```{r}
+summary(joined_df)
+tail(joined_df)
+```
+
+Examine program variables: program, description of program, program category
+```{r}
+table(joined_df$program)
+table(joined_df$program_desc)
+table(joined_df$program_category, useNA = "ifany") #should be a factor
+
+```
+
+Cleaning and wrangling
+```{r}
+cleaned_data <- joined_df %>%
+  mutate(program_category = as.factor(program_category))
+```
+
+What is the trend of working papers over time? Seems like increasing every year, with a pretty even breakdown by month. Could do stat test.
+```{r}
+NumPapers <- cleaned_data %>%
+  group_by(year, month) %>%
+  summarise(NumberofPapers = n_distinct(paper)) #to avoid double counting same paper when two authors
+
+ggplot(data=NumPapers, aes(x=year, y=NumberofPapers, fill = as.factor(month))) +
+  geom_bar(stat="identity") 
+```
+
+Who has the most working papers total? Jonathan Gruber
+```{r}
+cleaned_data %>%
+  group_by(name) %>%
+  summarise(NumberofPapers = n()) %>%
+  arrange(desc(NumberofPapers)) 
+```
+Who has the most working papers published in one month? Janet M Currie
+```{r, warning = FALSE, message = FALSE}
+cleaned_data %>%
+  group_by(year, month, name) %>%
+  summarise(NumberofPapers = n()) %>%
+  arrange(desc(NumberofPapers)) 
+```
+What kind of working papers are being published by the top 5 authors? Mostly microeconomics.
+```{r, warning = FALSE, message = FALSE}
+TopAuthors <- cleaned_data %>%
+  group_by(program_category) %>%
+  filter(name %in% c("Jonathan Gruber", "James J Heckman", "Daron Acemoglu", "Janet M Currie", "Michael D Bordo")) %>%
+  summarise(NumberofPapers = n())
+
+ggplot(data=TopAuthors, aes(x=program_category, y=NumberofPapers)) +
+  geom_bar(stat="identity") +
+  ggtitle("Program Categories of the Working Papers Published by the Top 5 Authors")
+```
+
+
 
