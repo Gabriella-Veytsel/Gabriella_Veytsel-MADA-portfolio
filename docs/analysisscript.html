@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Gabriella Veytsel" />
+
+
+<title>analysisscript</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #303030; color: #cccccc; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #cccccc; background-color: #303030; }
+code > span.kw { color: #f0dfaf; } /* Keyword */
+code > span.dt { color: #dfdfbf; } /* DataType */
+code > span.dv { color: #dcdccc; } /* DecVal */
+code > span.bn { color: #dca3a3; } /* BaseN */
+code > span.fl { color: #c0bed1; } /* Float */
+code > span.ch { color: #dca3a3; } /* Char */
+code > span.st { color: #cc9393; } /* String */
+code > span.co { color: #7f9f7f; } /* Comment */
+code > span.ot { color: #efef8f; } /* Other */
+code > span.al { color: #ffcfaf; } /* Alert */
+code > span.fu { color: #efef8f; } /* Function */
+code > span.er { color: #c3bf9f; } /* Error */
+code > span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+code > span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code > span.sc { color: #dca3a3; } /* SpecialChar */
+code > span.vs { color: #cc9393; } /* VerbatimString */
+code > span.ss { color: #cc9393; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #f0dfaf; } /* ControlFlow */
+code > span.op { color: #f0efd0; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #7f9f7f; } /* Documentation */
+code > span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code > span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code > span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Data Analysis Portfolio</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="./aboutme.html">About Me</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Projects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./rcoding.html">R Coding</a>
+    </li>
+    <li>
+      <a href="./visualization.html">Visualization</a>
+    </li>
+    <li>
+      <a href="./tidytuesday.html">Tidy Tuesday</a>
+    </li>
+    <li>
+      <a href="./tidytuesday_exercise2.html">Tidy Tuesday 2 Exercise</a>
+    </li>
+    <li>
+      <a href="./analysisscript.html">Analysis 3</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/Gabriella-Veytsel/Gabriella_Veytsel-MADA-portfolio">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">analysisscript</h1>
+<h4 class="author">Gabriella Veytsel</h4>
+<h4 class="date">November 4, 2021</h4>
+
+</div>
+
+
+<p>Full analysis is here: <a href="https://github.com/Gabriella-Veytsel/Veytsel_MADA_Analysis3" class="uri">https://github.com/Gabriella-Veytsel/Veytsel_MADA_Analysis3</a></p>
+<p>Load needed packages. make sure they are installed.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2) <span class="co">#for plotting</span>
+<span class="kw">library</span>(broom) <span class="co">#for cleaning up output from lm()</span></code></pre></div>
+<pre><code>## Warning: package &#39;broom&#39; was built under R version 4.1.1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(here) <span class="co">#for data loading/saving</span></code></pre></div>
+<pre><code>## Warning: package &#39;here&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## here() starts at C:/Users/Gabriella Veytsel/Desktop/MADA 2021/Gabriella_Veytsel-MADA-portfolio</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse) <span class="co">#tidyr: tidy output</span></code></pre></div>
+<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
+<pre><code>## v tibble  3.1.4     v dplyr   1.0.7
+## v tidyr   1.1.4     v stringr 1.4.0
+## v readr   2.0.1     v forcats 0.5.1
+## v purrr   0.3.4</code></pre>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;purrr&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;forcats&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidymodels) <span class="co">#linear and logistic reg</span></code></pre></div>
+<pre><code>## Warning: package &#39;tidymodels&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;tune&#39;:
+##   method                   from   
+##   required_pkgs.model_spec parsnip</code></pre>
+<pre><code>## -- Attaching packages -------------------------------------- tidymodels 0.1.4 --</code></pre>
+<pre><code>## v dials        0.0.10     v rsample      0.1.0 
+## v infer        1.0.0      v tune         0.1.6 
+## v modeldata    0.1.1      v workflows    0.2.4 
+## v parsnip      0.1.7      v workflowsets 0.1.0 
+## v recipes      0.1.17     v yardstick    0.0.8</code></pre>
+<pre><code>## Warning: package &#39;dials&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;scales&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;infer&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;modeldata&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;parsnip&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;recipes&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;rsample&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;tune&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;workflows&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;workflowsets&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;yardstick&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## -- Conflicts ----------------------------------------- tidymodels_conflicts() --
+## x scales::discard() masks purrr::discard()
+## x dplyr::filter()   masks stats::filter()
+## x recipes::fixed()  masks stringr::fixed()
+## x dplyr::lag()      masks stats::lag()
+## x yardstick::spec() masks readr::spec()
+## x recipes::step()   masks stats::step()
+## * Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(broom.mixed)</code></pre></div>
+<pre><code>## Warning: package &#39;broom.mixed&#39; was built under R version 4.1.1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dotwhisker)</code></pre></div>
+<pre><code>## Warning: package &#39;dotwhisker&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;parameters&#39;:
+##   method                           from      
+##   as.double.parameters_kurtosis    datawizard
+##   as.double.parameters_skewness    datawizard
+##   as.double.parameters_smoothness  datawizard
+##   as.numeric.parameters_kurtosis   datawizard
+##   as.numeric.parameters_skewness   datawizard
+##   as.numeric.parameters_smoothness datawizard
+##   print.parameters_distribution    datawizard
+##   print.parameters_kurtosis        datawizard
+##   print.parameters_skewness        datawizard
+##   summary.parameters_kurtosis      datawizard
+##   summary.parameters_skewness      datawizard</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(skimr) <span class="co">#for variable summaries</span></code></pre></div>
+<pre><code>## Warning: package &#39;skimr&#39; was built under R version 4.1.1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rsample) <span class="co">#for splitting data</span>
+<span class="kw">library</span>(yardstick) <span class="co">#roc_curve() and roc_auc()</span>
+<span class="kw">library</span>(rpart.plot) <span class="co">#for visualizing a decision tree</span></code></pre></div>
+<pre><code>## Warning: package &#39;rpart.plot&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Loading required package: rpart</code></pre>
+<pre><code>## 
+## Attaching package: &#39;rpart&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dials&#39;:
+## 
+##     prune</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(vip) <span class="co">#for variable importance plots</span></code></pre></div>
+<pre><code>## Warning: package &#39;vip&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## 
+## Attaching package: &#39;vip&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:utils&#39;:
+## 
+##     vi</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ranger)</code></pre></div>
+<pre><code>## Warning: package &#39;ranger&#39; was built under R version 4.1.1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(glmnet)</code></pre></div>
+<pre><code>## Warning: package &#39;glmnet&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## 
+## Attaching package: &#39;Matrix&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
+## 
+##     expand, pack, unpack</code></pre>
+<pre><code>## Loaded glmnet 4.1-2</code></pre>
+<p>Load data</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#path to data:: note the use of the here() package and not absolute paths</span>
+data_location &lt;-<span class="st"> </span>here::<span class="kw">here</span>(<span class="st">&quot;files&quot;</span>, <span class="st">&quot;data&quot;</span>,<span class="st">&quot;processed_data&quot;</span>,<span class="st">&quot;processeddata.rds&quot;</span>)
+
+<span class="co">#load clean data. </span>
+mydata &lt;-<span class="st"> </span><span class="kw">readRDS</span>(data_location)</code></pre></div>
+<p>Fit a linear model to the continuous outcome using only the main predictor of interest</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#RunnyNose is our main predictor of interest</span>
+lm_mod &lt;-<span class="st"> </span><span class="kw">linear_reg</span>() %&gt;%
+<span class="st">  </span><span class="kw">set_engine</span>(<span class="st">&quot;lm&quot;</span>)
+
+lm_fit &lt;-<span class="st"> </span>lm_mod %&gt;%
+<span class="st">  </span><span class="kw">fit</span>(BodyTemp ~<span class="st"> </span>RunnyNose, <span class="dt">data =</span> mydata)
+
+lm_fit_summary &lt;-<span class="st"> </span><span class="kw">tidy</span>(lm_fit) <span class="co">#tidy output</span>
+lm_fit_summary</code></pre></div>
+<pre><code>## # A tibble: 2 x 5
+##   term         estimate std.error statistic p.value
+##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 (Intercept)    99.1      0.0819   1210.   0      
+## 2 RunnyNoseYes   -0.293    0.0971     -3.01 0.00268</code></pre>
+<p>Fit another linear model to the continuous outcome using all predictors of interest</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mydata_subset &lt;-<span class="st"> </span>mydata %&gt;%
+<span class="st">  </span><span class="kw">select</span>(<span class="kw">c</span>(BodyTemp, SwollenLymphNodes, NasalCongestion, Sneeze, Fatigue, 
+           SubjectiveFever, Pharyngitis))  ##All predictors of interest
+
+lm_fit_all &lt;-<span class="st"> </span>lm_mod %&gt;%
+<span class="st">  </span><span class="kw">fit</span>(BodyTemp ~<span class="st"> </span>., <span class="dt">data =</span> mydata_subset)
+
+lm_fit_all_summary &lt;-<span class="st"> </span><span class="kw">tidy</span>(lm_fit_all) <span class="co">#tidy output</span>
+lm_fit_all_summary</code></pre></div>
+<pre><code>## # A tibble: 7 x 5
+##   term                 estimate std.error statistic      p.value
+##   &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+## 1 (Intercept)            98.3      0.193     509.   0           
+## 2 SwollenLymphNodesYes   -0.151    0.0891     -1.70 0.0897      
+## 3 NasalCongestionYes     -0.178    0.106      -1.69 0.0917      
+## 4 SneezeYes              -0.368    0.0890     -4.13 0.0000406   
+## 5 FatigueYes              0.366    0.151       2.43 0.0156      
+## 6 SubjectiveFeverYes      0.530    0.0918      5.77 0.0000000115
+## 7 PharyngitisYes          0.352    0.118       2.98 0.00299</code></pre>
+<p>Compare the model results for the model with just the main predictor and all predictors</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glance</span>(lm_fit) <span class="co">#adjusted r-squared: 0.0110; AIC: 2329, BIC: 2343</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1    0.0123        0.0110  1.19      9.08 0.00268     1 -1162. 2329. 2343.
+## # ... with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glance</span>(lm_fit_all) <span class="co">#adjusted r-squared: 0.0862; AIC: 2277, BIC: 2313</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1    0.0937        0.0862  1.14      12.5 2.16e-13     6 -1130. 2277. 2313.
+## # ... with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Adding additional predictors only slightly improves the model fit: </span>
+  <span class="co">#slightly higher r-squared, but still vary low</span>
+  <span class="co">#slightly lower AIC and BIC</span></code></pre></div>
+<p>Fit a logistic model to the categorical outcome using only the main predictor of interest.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">logistic_mod &lt;-<span class="st"> </span><span class="kw">logistic_reg</span>() %&gt;%
+<span class="st">  </span><span class="kw">set_engine</span>(<span class="st">&quot;glm&quot;</span>)
+
+log_fit &lt;-<span class="st"> </span>logistic_mod %&gt;%
+<span class="st">  </span><span class="kw">fit</span>(Nausea ~<span class="st"> </span>RunnyNose, <span class="dt">data =</span> mydata)
+
+log_fit_summary &lt;-<span class="st"> </span><span class="kw">tidy</span>(log_fit)
+log_fit_summary</code></pre></div>
+<pre><code>## # A tibble: 2 x 5
+##   term         estimate std.error statistic    p.value
+##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+## 1 (Intercept)   -0.658      0.145    -4.53  0.00000589
+## 2 RunnyNoseYes   0.0502     0.172     0.292 0.770</code></pre>
+<p>Fit another logistic model to the categorical outcome using all (important) predictors of interest</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mydata_subset_nausea &lt;-<span class="st"> </span>mydata %&gt;%
+<span class="st">  </span><span class="kw">select</span>(<span class="kw">c</span>(ChillsSweats, Fatigue, SubjectiveFever, Headache, 
+           Weakness, Myalgia, AbPain, Diarrhea, Vomit, BodyTemp, Nausea))
+         
+log_fit_all &lt;-<span class="st"> </span>logistic_mod %&gt;%
+<span class="st">  </span><span class="kw">fit</span>(Nausea ~<span class="st"> </span>., <span class="dt">data =</span> mydata_subset_nausea)
+
+log_fit_all_summary &lt;-<span class="st"> </span><span class="kw">tidy</span>(log_fit_all)
+log_fit_all_summary</code></pre></div>
+<pre><code>## # A tibble: 15 x 5
+##    term               estimate std.error statistic  p.value
+##    &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+##  1 (Intercept)          2.51      7.44       0.337 7.36e- 1
+##  2 ChillsSweatsYes      0.329     0.275      1.19  2.32e- 1
+##  3 FatigueYes           0.354     0.362      0.979 3.28e- 1
+##  4 SubjectiveFeverYes   0.0638    0.210      0.304 7.61e- 1
+##  5 HeadacheYes          0.416     0.276      1.51  1.32e- 1
+##  6 Weakness.L           0.682     0.343      1.99  4.64e- 2
+##  7 Weakness.Q           0.322     0.249      1.29  1.97e- 1
+##  8 Weakness.C          -0.113     0.177     -0.639 5.23e- 1
+##  9 Myalgia.L            0.232     0.304      0.764 4.45e- 1
+## 10 Myalgia.Q           -0.0409    0.223     -0.184 8.54e- 1
+## 11 Myalgia.C           -0.107     0.171     -0.629 5.29e- 1
+## 12 AbPainYes            0.986     0.267      3.70  2.19e- 4
+## 13 DiarrheaYes          0.965     0.249      3.87  1.08e- 4
+## 14 VomitYes             2.27      0.334      6.80  1.04e-11
+## 15 BodyTemp            -0.0475    0.0757    -0.628 5.30e- 1</code></pre>
+<p>Compare the model results for the categorical model with just the main predictor and all predictors</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glance</span>(log_fit) <span class="co">#deviance: 945</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 8
+##   null.deviance df.null logLik   AIC   BIC deviance df.residual  nobs
+##           &lt;dbl&gt;   &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt; &lt;int&gt;
+## 1          945.     729  -472.  949.  958.     945.         728   730</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glance</span>(log_fit_all) <span class="co">#deviance: 783</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 8
+##   null.deviance df.null logLik   AIC   BIC deviance df.residual  nobs
+##           &lt;dbl&gt;   &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt; &lt;int&gt;
+## 1          945.     729  -391.  813.  882.     783.         715   730</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#the smaller the deviance, the better the fit, so adding additional predictors improves the model fit</span>
+<span class="co">#also, the AIC and BIC are lower</span></code></pre></div>
+<p>Exercise 9 * It is important that our outcome variable for training a logistic regression is a factor * Randomly split data into training set and testing set</p>
+<ul>
+<li>The training data will be used to fit the model</li>
+<li>The testing set will be used to measure model performance</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fix the random numbers by setting a seed</span>
+<span class="co"># this enables the analysis to be reproducible when random #s are used</span>
+<span class="kw">set.seed</span>(<span class="dv">222</span>) 
+<span class="co">#Put 3/4 of the data into the training set</span>
+data_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(mydata, <span class="dt">prop =</span> <span class="dv">3</span>/<span class="dv">4</span>)
+<span class="co">#Create data frames for the two sets</span>
+train_data &lt;-<span class="st"> </span><span class="kw">training</span>(data_split)
+test_data &lt;-<span class="st"> </span><span class="kw">testing</span>(data_split)</code></pre></div>
+<p>Fit categorical outcome of interest to all predictors</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Categorical outcome of interest = Nausea</span>
+<span class="co">#Recipe () has two arguments: a formula and the data</span>
+processed_cat_rec &lt;-<span class="st"> </span><span class="kw">recipe</span>(Nausea ~<span class="st"> </span>., <span class="dt">data =</span> train_data)
+
+<span class="co">#Build a model specification using the parsnip package</span>
+logistic_mod &lt;-<span class="st"> </span><span class="kw">logistic_reg</span>() %&gt;%
+<span class="st">  </span><span class="kw">set_engine</span>(<span class="st">&quot;glm&quot;</span>)
+
+<span class="co">#Model workflow pairs a model and recipe together</span>
+processed_cat_workflow &lt;-<span class="st"> </span>
+<span class="st">  </span><span class="kw">workflow</span>() %&gt;%
+<span class="st">  </span><span class="kw">add_model</span>(logistic_mod) %&gt;%
+<span class="st">  </span><span class="kw">add_recipe</span>(processed_cat_rec)
+
+processed_cat_workflow</code></pre></div>
+<pre><code>## == Workflow ====================================================================
+## Preprocessor: Recipe
+## Model: logistic_reg()
+## 
+## -- Preprocessor ----------------------------------------------------------------
+## 0 Recipe Steps
+## 
+## -- Model -----------------------------------------------------------------------
+## Logistic Regression Model Specification (classification)
+## 
+## Computational engine: glm</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">processed_cat_fit &lt;-
+<span class="st">  </span>processed_cat_workflow %&gt;%
+<span class="st">  </span><span class="kw">fit</span>(<span class="dt">data =</span> train_data)
+
+<span class="co">#Extract the fitted model object and use tidy() to get a tidy tibble </span>
+<span class="co">#of model coefficients</span>
+processed_cat_fit %&gt;%
+<span class="st">  </span><span class="kw">extract_fit_parsnip</span>() %&gt;%
+<span class="st">  </span><span class="kw">tidy</span>()</code></pre></div>
+<pre><code>## # A tibble: 32 x 5
+##    term                 estimate std.error statistic p.value
+##    &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+##  1 (Intercept)            2.56       9.39      0.273  0.785 
+##  2 SwollenLymphNodesYes  -0.240      0.231    -1.04   0.300 
+##  3 ChestCongestionYes     0.168      0.252     0.668  0.504 
+##  4 ChillsSweatsYes        0.148      0.331     0.448  0.654 
+##  5 NasalCongestionYes     0.600      0.309     1.94   0.0521
+##  6 SneezeYes              0.0974     0.247     0.395  0.693 
+##  7 FatigueYes             0.180      0.438     0.411  0.681 
+##  8 SubjectiveFeverYes     0.191      0.261     0.733  0.463 
+##  9 HeadacheYes            0.482      0.351     1.37   0.169 
+## 10 Weakness.L             0.668      0.406     1.65   0.0999
+## # ... with 22 more rows</code></pre>
+<p>Model Evaluaton: * Look at predictions, ROC and ROC-AUC for my data * ROC-AUC is how good the model is at distinguishing between patients with nausea and patients without nausea</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Use the trained workflow to predict with the test data</span>
+<span class="co">#Returns predicted class</span>
+<span class="kw">predict</span>(processed_cat_fit, test_data)</code></pre></div>
+<pre><code>## # A tibble: 183 x 1
+##    .pred_class
+##    &lt;fct&gt;      
+##  1 No         
+##  2 No         
+##  3 No         
+##  4 No         
+##  5 No         
+##  6 Yes        
+##  7 Yes        
+##  8 No         
+##  9 No         
+## 10 Yes        
+## # ... with 173 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Can these warnings be ignored?</span>
+
+<span class="co">#Returns predicted class probabiliies</span>
+processed_cat_aug &lt;-<span class="st"> </span><span class="kw">augment</span>(processed_cat_fit, test_data)
+processed_cat_aug</code></pre></div>
+<pre><code>## # A tibble: 183 x 29
+##    SwollenLymphNodes ChestCongestion ChillsSweats NasalCongestion Sneeze Fatigue
+##    &lt;fct&gt;             &lt;fct&gt;           &lt;fct&gt;        &lt;fct&gt;           &lt;fct&gt;  &lt;fct&gt;  
+##  1 Yes               No              No           No              No     Yes    
+##  2 Yes               Yes             Yes          Yes             Yes    Yes    
+##  3 No                No              Yes          No              No     Yes    
+##  4 Yes               Yes             Yes          Yes             Yes    Yes    
+##  5 No                Yes             No           No              Yes    Yes    
+##  6 No                No              Yes          Yes             No     Yes    
+##  7 No                No              Yes          Yes             Yes    Yes    
+##  8 Yes               Yes             Yes          Yes             Yes    Yes    
+##  9 No                No              Yes          Yes             No     Yes    
+## 10 No                No              Yes          Yes             Yes    Yes    
+## # ... with 173 more rows, and 23 more variables: SubjectiveFever &lt;fct&gt;,
+## #   Headache &lt;fct&gt;, Weakness &lt;ord&gt;, CoughIntensity &lt;ord&gt;, Myalgia &lt;ord&gt;,
+## #   RunnyNose &lt;fct&gt;, AbPain &lt;fct&gt;, ChestPain &lt;fct&gt;, Diarrhea &lt;fct&gt;,
+## #   EyePn &lt;fct&gt;, Insomnia &lt;fct&gt;, ItchyEye &lt;fct&gt;, Nausea &lt;fct&gt;, EarPn &lt;fct&gt;,
+## #   Pharyngitis &lt;fct&gt;, Breathless &lt;fct&gt;, ToothPn &lt;fct&gt;, Vomit &lt;fct&gt;,
+## #   Wheeze &lt;fct&gt;, BodyTemp &lt;dbl&gt;, .pred_class &lt;fct&gt;, .pred_No &lt;dbl&gt;,
+## #   .pred_Yes &lt;dbl&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Create the ROC curve</span>
+processed_cat_aug %&gt;%
+<span class="st">  </span><span class="kw">roc_curve</span>(<span class="dt">truth =</span> Nausea, .pred_No) %&gt;%
+<span class="st">  </span><span class="kw">autoplot</span>()</code></pre></div>
+<p><img src="analysisscript_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Estimate the area under the curve</span>
+processed_cat_aug %&gt;%
+<span class="st">  </span><span class="kw">roc_auc</span>(<span class="dt">truth =</span> Nausea, .pred_No) <span class="co">#0.724 - model is useful</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 roc_auc binary         0.731</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Was it correct to use .pred_No instead of .pred_Yes</span>
+
+<span class="co">#Out of curiousity, apply training data instead</span>
+<span class="co">#Use the trained workflow to predict with the training data</span>
+<span class="co">#Returns predicted class</span>
+<span class="kw">predict</span>(processed_cat_fit, train_data)</code></pre></div>
+<pre><code>## # A tibble: 547 x 1
+##    .pred_class
+##    &lt;fct&gt;      
+##  1 No         
+##  2 Yes        
+##  3 No         
+##  4 No         
+##  5 Yes        
+##  6 No         
+##  7 No         
+##  8 No         
+##  9 No         
+## 10 No         
+## # ... with 537 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Returns predicted class probabiliies</span>
+processed_cat_aug_train &lt;-<span class="st"> </span><span class="kw">augment</span>(processed_cat_fit, train_data)
+processed_cat_aug_train</code></pre></div>
+<pre><code>## # A tibble: 547 x 29
+##    SwollenLymphNodes ChestCongestion ChillsSweats NasalCongestion Sneeze Fatigue
+##    &lt;fct&gt;             &lt;fct&gt;           &lt;fct&gt;        &lt;fct&gt;           &lt;fct&gt;  &lt;fct&gt;  
+##  1 No                No              Yes          Yes             No     Yes    
+##  2 No                Yes             Yes          Yes             Yes    Yes    
+##  3 Yes               Yes             Yes          Yes             Yes    Yes    
+##  4 No                Yes             No           Yes             No     Yes    
+##  5 Yes               Yes             Yes          Yes             Yes    Yes    
+##  6 Yes               No              Yes          Yes             Yes    Yes    
+##  7 No                Yes             Yes          Yes             Yes    No     
+##  8 No                Yes             Yes          Yes             No     Yes    
+##  9 Yes               No              Yes          Yes             No     Yes    
+## 10 No                No              No           Yes             Yes    Yes    
+## # ... with 537 more rows, and 23 more variables: SubjectiveFever &lt;fct&gt;,
+## #   Headache &lt;fct&gt;, Weakness &lt;ord&gt;, CoughIntensity &lt;ord&gt;, Myalgia &lt;ord&gt;,
+## #   RunnyNose &lt;fct&gt;, AbPain &lt;fct&gt;, ChestPain &lt;fct&gt;, Diarrhea &lt;fct&gt;,
+## #   EyePn &lt;fct&gt;, Insomnia &lt;fct&gt;, ItchyEye &lt;fct&gt;, Nausea &lt;fct&gt;, EarPn &lt;fct&gt;,
+## #   Pharyngitis &lt;fct&gt;, Breathless &lt;fct&gt;, ToothPn &lt;fct&gt;, Vomit &lt;fct&gt;,
+## #   Wheeze &lt;fct&gt;, BodyTemp &lt;dbl&gt;, .pred_class &lt;fct&gt;, .pred_No &lt;dbl&gt;,
+## #   .pred_Yes &lt;dbl&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Create the ROC curve</span>
+processed_cat_aug_train %&gt;%
+<span class="st">  </span><span class="kw">roc_curve</span>(<span class="dt">truth =</span> Nausea, .pred_No) %&gt;%
+<span class="st">  </span><span class="kw">autoplot</span>()</code></pre></div>
+<p><img src="analysisscript_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Estimate the area under the curve</span>
+processed_cat_aug_train %&gt;%
+<span class="st">  </span><span class="kw">roc_auc</span>(<span class="dt">truth =</span> Nausea, .pred_No) <span class="co">#0.787 - has better performance, as expected</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 roc_auc binary         0.785</code></pre>
+<p>Alternatiely, fit only the main predictor (RunnyNose)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Set up a new recipe</span>
+processed_cat_main_rec &lt;-<span class="st"> </span><span class="kw">recipe</span>(Nausea ~<span class="st"> </span>RunnyNose, <span class="dt">data =</span> train_data)
+
+<span class="co">#Set up a new workflow</span>
+<span class="co">#Model workflow pairs a model and recipe together</span>
+processed_cat_main_workflow &lt;-<span class="st"> </span>
+<span class="st">  </span><span class="kw">workflow</span>() %&gt;%
+<span class="st">  </span><span class="kw">add_model</span>(logistic_mod) %&gt;%
+<span class="st">  </span><span class="kw">add_recipe</span>(processed_cat_main_rec) <span class="co">#new recipe</span>
+
+processed_cat_main_workflow</code></pre></div>
+<pre><code>## == Workflow ====================================================================
+## Preprocessor: Recipe
+## Model: logistic_reg()
+## 
+## -- Preprocessor ----------------------------------------------------------------
+## 0 Recipe Steps
+## 
+## -- Model -----------------------------------------------------------------------
+## Logistic Regression Model Specification (classification)
+## 
+## Computational engine: glm</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">processed_cat_main_fit &lt;-
+<span class="st">  </span>processed_cat_main_workflow %&gt;%
+<span class="st">  </span><span class="kw">fit</span>(<span class="dt">data =</span> train_data)
+
+<span class="co">#Evaluate performace</span>
+<span class="co">#Use the trained workflow to predict with the test data</span>
+<span class="co">#Returns predicted class</span>
+<span class="kw">predict</span>(processed_cat_main_fit, test_data)</code></pre></div>
+<pre><code>## # A tibble: 183 x 1
+##    .pred_class
+##    &lt;fct&gt;      
+##  1 No         
+##  2 No         
+##  3 No         
+##  4 No         
+##  5 No         
+##  6 No         
+##  7 No         
+##  8 No         
+##  9 No         
+## 10 No         
+## # ... with 173 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#No warnings this time</span>
+
+<span class="co">#Returns predicted class probabiliies</span>
+processed_cat_main_aug &lt;-<span class="st"> </span><span class="kw">augment</span>(processed_cat_main_fit, test_data)
+processed_cat_main_aug</code></pre></div>
+<pre><code>## # A tibble: 183 x 29
+##    SwollenLymphNodes ChestCongestion ChillsSweats NasalCongestion Sneeze Fatigue
+##    &lt;fct&gt;             &lt;fct&gt;           &lt;fct&gt;        &lt;fct&gt;           &lt;fct&gt;  &lt;fct&gt;  
+##  1 Yes               No              No           No              No     Yes    
+##  2 Yes               Yes             Yes          Yes             Yes    Yes    
+##  3 No                No              Yes          No              No     Yes    
+##  4 Yes               Yes             Yes          Yes             Yes    Yes    
+##  5 No                Yes             No           No              Yes    Yes    
+##  6 No                No              Yes          Yes             No     Yes    
+##  7 No                No              Yes          Yes             Yes    Yes    
+##  8 Yes               Yes             Yes          Yes             Yes    Yes    
+##  9 No                No              Yes          Yes             No     Yes    
+## 10 No                No              Yes          Yes             Yes    Yes    
+## # ... with 173 more rows, and 23 more variables: SubjectiveFever &lt;fct&gt;,
+## #   Headache &lt;fct&gt;, Weakness &lt;ord&gt;, CoughIntensity &lt;ord&gt;, Myalgia &lt;ord&gt;,
+## #   RunnyNose &lt;fct&gt;, AbPain &lt;fct&gt;, ChestPain &lt;fct&gt;, Diarrhea &lt;fct&gt;,
+## #   EyePn &lt;fct&gt;, Insomnia &lt;fct&gt;, ItchyEye &lt;fct&gt;, Nausea &lt;fct&gt;, EarPn &lt;fct&gt;,
+## #   Pharyngitis &lt;fct&gt;, Breathless &lt;fct&gt;, ToothPn &lt;fct&gt;, Vomit &lt;fct&gt;,
+## #   Wheeze &lt;fct&gt;, BodyTemp &lt;dbl&gt;, .pred_class &lt;fct&gt;, .pred_No &lt;dbl&gt;,
+## #   .pred_Yes &lt;dbl&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Create the ROC curve</span>
+processed_cat_main_aug %&gt;%
+<span class="st">  </span><span class="kw">roc_curve</span>(<span class="dt">truth =</span> Nausea, .pred_No) %&gt;%
+<span class="st">  </span><span class="kw">autoplot</span>() </code></pre></div>
+<p><img src="analysisscript_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Estimate the area under the curve</span>
+processed_cat_main_aug %&gt;%
+<span class="st">  </span><span class="kw">roc_auc</span>(<span class="dt">truth =</span> Nausea, .pred_No) <span class="co">#0.466 - model is no good</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 roc_auc binary         0.466</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Was it correct to use .pred_No instead of .pred_Yes</span></code></pre></div>
+<p>Out of curiousity, apply training data instead</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Use the trained workflow to predict with the training data</span>
+<span class="co">#Returns predicted class</span>
+<span class="kw">predict</span>(processed_cat_main_fit, train_data)</code></pre></div>
+<pre><code>## # A tibble: 547 x 1
+##    .pred_class
+##    &lt;fct&gt;      
+##  1 No         
+##  2 No         
+##  3 No         
+##  4 No         
+##  5 No         
+##  6 No         
+##  7 No         
+##  8 No         
+##  9 No         
+## 10 No         
+## # ... with 537 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Returns predicted class probabiliies</span>
+processed_cat_main_aug_train &lt;-<span class="st"> </span><span class="kw">augment</span>(processed_cat_main_fit, train_data)
+processed_cat_main_aug_train</code></pre></div>
+<pre><code>## # A tibble: 547 x 29
+##    SwollenLymphNodes ChestCongestion ChillsSweats NasalCongestion Sneeze Fatigue
+##    &lt;fct&gt;             &lt;fct&gt;           &lt;fct&gt;        &lt;fct&gt;           &lt;fct&gt;  &lt;fct&gt;  
+##  1 No                No              Yes          Yes             No     Yes    
+##  2 No                Yes             Yes          Yes             Yes    Yes    
+##  3 Yes               Yes             Yes          Yes             Yes    Yes    
+##  4 No                Yes             No           Yes             No     Yes    
+##  5 Yes               Yes             Yes          Yes             Yes    Yes    
+##  6 Yes               No              Yes          Yes             Yes    Yes    
+##  7 No                Yes             Yes          Yes             Yes    No     
+##  8 No                Yes             Yes          Yes             No     Yes    
+##  9 Yes               No              Yes          Yes             No     Yes    
+## 10 No                No              No           Yes             Yes    Yes    
+## # ... with 537 more rows, and 23 more variables: SubjectiveFever &lt;fct&gt;,
+## #   Headache &lt;fct&gt;, Weakness &lt;ord&gt;, CoughIntensity &lt;ord&gt;, Myalgia &lt;ord&gt;,
+## #   RunnyNose &lt;fct&gt;, AbPain &lt;fct&gt;, ChestPain &lt;fct&gt;, Diarrhea &lt;fct&gt;,
+## #   EyePn &lt;fct&gt;, Insomnia &lt;fct&gt;, ItchyEye &lt;fct&gt;, Nausea &lt;fct&gt;, EarPn &lt;fct&gt;,
+## #   Pharyngitis &lt;fct&gt;, Breathless &lt;fct&gt;, ToothPn &lt;fct&gt;, Vomit &lt;fct&gt;,
+## #   Wheeze &lt;fct&gt;, BodyTemp &lt;dbl&gt;, .pred_class &lt;fct&gt;, .pred_No &lt;dbl&gt;,
+## #   .pred_Yes &lt;dbl&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Create the ROC curve</span>
+processed_cat_main_aug_train %&gt;%
+<span class="st">  </span><span class="kw">roc_curve</span>(<span class="dt">truth =</span> Nausea, .pred_No) %&gt;%
+<span class="st">  </span><span class="kw">autoplot</span>()</code></pre></div>
+<p><img src="analysisscript_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Estimate the area under the curve</span>
+processed_cat_main_aug_train %&gt;%
+<span class="st">  </span><span class="kw">roc_auc</span>(<span class="dt">truth =</span> Nausea, .pred_No) <span class="co">#0.519 - has better performance, as expected</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 roc_auc binary         0.519</code></pre>
+<p>Amanda Glatter</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Continuous outcome of interest = BodyTemp</span>
+<span class="co">#Recipe () has two arguments: a formula and the data</span>
+bodytemp_recipe &lt;-<span class="st"> </span><span class="kw">recipe</span>(BodyTemp ~<span class="st"> </span>., <span class="dt">data =</span> train_data)
+
+<span class="co">#Build a model specification using the parsnip package</span>
+linear_model &lt;-<span class="st"> </span><span class="kw">linear_reg</span>() %&gt;%
+<span class="st">  </span><span class="kw">set_engine</span>(<span class="st">&quot;lm&quot;</span>)
+
+<span class="co">#Model workflow pairs a model and recipe together</span>
+cont_workflow &lt;-<span class="st"> </span>
+<span class="st">  </span><span class="kw">workflow</span>() %&gt;%
+<span class="st">  </span><span class="kw">add_model</span>(linear_model) %&gt;%
+<span class="st">  </span><span class="kw">add_recipe</span>(bodytemp_recipe)
+
+cont_workflow</code></pre></div>
+<pre><code>## == Workflow ====================================================================
+## Preprocessor: Recipe
+## Model: linear_reg()
+## 
+## -- Preprocessor ----------------------------------------------------------------
+## 0 Recipe Steps
+## 
+## -- Model -----------------------------------------------------------------------
+## Linear Regression Model Specification (regression)
+## 
+## Computational engine: lm</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cont_fit &lt;-
+<span class="st">  </span>cont_workflow %&gt;%
+<span class="st">  </span><span class="kw">fit</span>(<span class="dt">data =</span> train_data)
+
+<span class="co">#Extract the fitted model object and use tidy() to get a tidy tibble </span>
+<span class="co">#of model coefficients</span>
+cont_fit %&gt;%
+<span class="st">  </span><span class="kw">extract_fit_parsnip</span>() %&gt;%
+<span class="st">  </span><span class="kw">tidy</span>()</code></pre></div>
+<pre><code>## # A tibble: 32 x 5
+##    term                 estimate std.error statistic    p.value
+##    &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+##  1 (Intercept)           98.0        0.280   350.    0         
+##  2 SwollenLymphNodesYes  -0.190      0.108    -1.76  0.0789    
+##  3 ChestCongestionYes     0.146      0.115     1.27  0.203     
+##  4 ChillsSweatsYes        0.184      0.148     1.24  0.214     
+##  5 NasalCongestionYes    -0.182      0.136    -1.34  0.180     
+##  6 SneezeYes             -0.474      0.113    -4.18  0.0000338 
+##  7 FatigueYes             0.362      0.187     1.94  0.0529    
+##  8 SubjectiveFeverYes     0.564      0.118     4.79  0.00000223
+##  9 HeadacheYes            0.0675     0.150     0.448 0.654     
+## 10 Weakness.L             0.224      0.182     1.23  0.218     
+## # ... with 22 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#We&#39;ll now start to evaluate the model using RMSE.</span>
+
+<span class="co">#We use RMSE on BodyTemp against all predictors and use the train data.</span>
+<span class="co">#Make predictions.</span>
+
+<span class="kw">predict</span>(cont_fit, train_data)</code></pre></div>
+<pre><code>## # A tibble: 547 x 1
+##    .pred
+##    &lt;dbl&gt;
+##  1  99.2
+##  2  98.9
+##  3  98.7
+##  4  98.7
+##  5  98.9
+##  6  98.4
+##  7  98.7
+##  8  99.6
+##  9  99.3
+## 10  98.7
+## # ... with 537 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Returns predicted class probabiliies</span>
+cont_aug_train &lt;-<span class="st"> </span><span class="kw">augment</span>(cont_fit, train_data)
+cont_aug_train</code></pre></div>
+<pre><code>## # A tibble: 547 x 27
+##    SwollenLymphNodes ChestCongestion ChillsSweats NasalCongestion Sneeze Fatigue
+##    &lt;fct&gt;             &lt;fct&gt;           &lt;fct&gt;        &lt;fct&gt;           &lt;fct&gt;  &lt;fct&gt;  
+##  1 No                No              Yes          Yes             No     Yes    
+##  2 No                Yes             Yes          Yes             Yes    Yes    
+##  3 Yes               Yes             Yes          Yes             Yes    Yes    
+##  4 No                Yes             No           Yes             No     Yes    
+##  5 Yes               Yes             Yes          Yes             Yes    Yes    
+##  6 Yes               No              Yes          Yes             Yes    Yes    
+##  7 No                Yes             Yes          Yes             Yes    No     
+##  8 No                Yes             Yes          Yes             No     Yes    
+##  9 Yes               No              Yes          Yes             No     Yes    
+## 10 No                No              No           Yes             Yes    Yes    
+## # ... with 537 more rows, and 21 more variables: SubjectiveFever &lt;fct&gt;,
+## #   Headache &lt;fct&gt;, Weakness &lt;ord&gt;, CoughIntensity &lt;ord&gt;, Myalgia &lt;ord&gt;,
+## #   RunnyNose &lt;fct&gt;, AbPain &lt;fct&gt;, ChestPain &lt;fct&gt;, Diarrhea &lt;fct&gt;,
+## #   EyePn &lt;fct&gt;, Insomnia &lt;fct&gt;, ItchyEye &lt;fct&gt;, Nausea &lt;fct&gt;, EarPn &lt;fct&gt;,
+## #   Pharyngitis &lt;fct&gt;, Breathless &lt;fct&gt;, ToothPn &lt;fct&gt;, Vomit &lt;fct&gt;,
+## #   Wheeze &lt;fct&gt;, BodyTemp &lt;dbl&gt;, .pred &lt;dbl&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#RMSE</span>
+train_rmse &lt;-<span class="st"> </span>cont_aug_train %&gt;%
+<span class="st">  </span><span class="kw">rmse</span>(<span class="dt">truth =</span> BodyTemp, .pred)
+
+train_rmse <span class="co">#The value is 1.11.</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        1.12</code></pre>
+<p>Now we repeat this on the test data</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#We use RMSE on BodyTemp against all predictors and use the test data.</span>
+<span class="co">#Make predictions.</span>
+<span class="kw">predict</span>(cont_fit, test_data)</code></pre></div>
+<pre><code>## # A tibble: 183 x 1
+##    .pred
+##    &lt;dbl&gt;
+##  1  99.4
+##  2  99.0
+##  3  99.8
+##  4  98.7
+##  5  99.0
+##  6  99.6
+##  7  99.2
+##  8  98.8
+##  9  99.5
+## 10  98.8
+## # ... with 173 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Returns predicted class probabiliies</span>
+cont_aug_test &lt;-<span class="st"> </span><span class="kw">augment</span>(cont_fit, test_data)
+cont_aug_test</code></pre></div>
+<pre><code>## # A tibble: 183 x 27
+##    SwollenLymphNodes ChestCongestion ChillsSweats NasalCongestion Sneeze Fatigue
+##    &lt;fct&gt;             &lt;fct&gt;           &lt;fct&gt;        &lt;fct&gt;           &lt;fct&gt;  &lt;fct&gt;  
+##  1 Yes               No              No           No              No     Yes    
+##  2 Yes               Yes             Yes          Yes             Yes    Yes    
+##  3 No                No              Yes          No              No     Yes    
+##  4 Yes               Yes             Yes          Yes             Yes    Yes    
+##  5 No                Yes             No           No              Yes    Yes    
+##  6 No                No              Yes          Yes             No     Yes    
+##  7 No                No              Yes          Yes             Yes    Yes    
+##  8 Yes               Yes             Yes          Yes             Yes    Yes    
+##  9 No                No              Yes          Yes             No     Yes    
+## 10 No                No              Yes          Yes             Yes    Yes    
+## # ... with 173 more rows, and 21 more variables: SubjectiveFever &lt;fct&gt;,
+## #   Headache &lt;fct&gt;, Weakness &lt;ord&gt;, CoughIntensity &lt;ord&gt;, Myalgia &lt;ord&gt;,
+## #   RunnyNose &lt;fct&gt;, AbPain &lt;fct&gt;, ChestPain &lt;fct&gt;, Diarrhea &lt;fct&gt;,
+## #   EyePn &lt;fct&gt;, Insomnia &lt;fct&gt;, ItchyEye &lt;fct&gt;, Nausea &lt;fct&gt;, EarPn &lt;fct&gt;,
+## #   Pharyngitis &lt;fct&gt;, Breathless &lt;fct&gt;, ToothPn &lt;fct&gt;, Vomit &lt;fct&gt;,
+## #   Wheeze &lt;fct&gt;, BodyTemp &lt;dbl&gt;, .pred &lt;dbl&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#RMSE</span>
+test_rmse &lt;-<span class="st"> </span>cont_aug_test %&gt;%
+<span class="st">  </span><span class="kw">rmse</span>(<span class="dt">truth =</span> BodyTemp, .pred)
+
+test_rmse <span class="co">#The value is 1.15.</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        1.15</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Now we have to make a recipe for Body Temp and Runny nose.</span>
+bodytemp_runnynose_recipe &lt;-<span class="st"> </span><span class="kw">recipe</span>(BodyTemp ~<span class="st"> </span>RunnyNose, <span class="dt">data =</span> train_data)
+
+<span class="co">#Model workflow pairs a model and recipe together (runny nose and body temp)</span>
+cont_workflow2 &lt;-<span class="st"> </span>
+<span class="st">  </span><span class="kw">workflow</span>() %&gt;%
+<span class="st">  </span><span class="kw">add_model</span>(linear_model) %&gt;%
+<span class="st">  </span><span class="kw">add_recipe</span>(bodytemp_runnynose_recipe)
+
+cont_fit2 &lt;-
+<span class="st">  </span>cont_workflow2 %&gt;%
+<span class="st">  </span><span class="kw">fit</span>(<span class="dt">data =</span> train_data)
+
+<span class="co">#Extract the fitted model object and use tidy() to get a tidy tibble </span>
+<span class="co">#of model coefficients</span>
+cont_fit2 %&gt;%
+<span class="st">  </span><span class="kw">extract_fit_parsnip</span>() %&gt;%
+<span class="st">  </span><span class="kw">tidy</span>()</code></pre></div>
+<pre><code>## # A tibble: 2 x 5
+##   term         estimate std.error statistic p.value
+##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 (Intercept)    99.1      0.0964   1028.    0     
+## 2 RunnyNoseYes   -0.261    0.114      -2.29  0.0225</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#make predictions</span>
+<span class="kw">predict</span>(cont_fit2, train_data)</code></pre></div>
+<pre><code>## # A tibble: 547 x 1
+##    .pred
+##    &lt;dbl&gt;
+##  1  98.9
+##  2  98.9
+##  3  98.9
+##  4  98.9
+##  5  98.9
+##  6  98.9
+##  7  98.9
+##  8  98.9
+##  9  99.1
+## 10  98.9
+## # ... with 537 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Returns predicted class probabiliies</span>
+cont_aug_train2 &lt;-<span class="st"> </span><span class="kw">augment</span>(cont_fit2, train_data)
+cont_aug_train2</code></pre></div>
+<pre><code>## # A tibble: 547 x 27
+##    SwollenLymphNodes ChestCongestion ChillsSweats NasalCongestion Sneeze Fatigue
+##    &lt;fct&gt;             &lt;fct&gt;           &lt;fct&gt;        &lt;fct&gt;           &lt;fct&gt;  &lt;fct&gt;  
+##  1 No                No              Yes          Yes             No     Yes    
+##  2 No                Yes             Yes          Yes             Yes    Yes    
+##  3 Yes               Yes             Yes          Yes             Yes    Yes    
+##  4 No                Yes             No           Yes             No     Yes    
+##  5 Yes               Yes             Yes          Yes             Yes    Yes    
+##  6 Yes               No              Yes          Yes             Yes    Yes    
+##  7 No                Yes             Yes          Yes             Yes    No     
+##  8 No                Yes             Yes          Yes             No     Yes    
+##  9 Yes               No              Yes          Yes             No     Yes    
+## 10 No                No              No           Yes             Yes    Yes    
+## # ... with 537 more rows, and 21 more variables: SubjectiveFever &lt;fct&gt;,
+## #   Headache &lt;fct&gt;, Weakness &lt;ord&gt;, CoughIntensity &lt;ord&gt;, Myalgia &lt;ord&gt;,
+## #   RunnyNose &lt;fct&gt;, AbPain &lt;fct&gt;, ChestPain &lt;fct&gt;, Diarrhea &lt;fct&gt;,
+## #   EyePn &lt;fct&gt;, Insomnia &lt;fct&gt;, ItchyEye &lt;fct&gt;, Nausea &lt;fct&gt;, EarPn &lt;fct&gt;,
+## #   Pharyngitis &lt;fct&gt;, Breathless &lt;fct&gt;, ToothPn &lt;fct&gt;, Vomit &lt;fct&gt;,
+## #   Wheeze &lt;fct&gt;, BodyTemp &lt;dbl&gt;, .pred &lt;dbl&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#We use RMSE on BodyTemp with predictor RunnyNose using test data.</span>
+
+<span class="co">#RMSE</span>
+train_rmse2 &lt;-<span class="st"> </span>cont_aug_train2 %&gt;%
+<span class="st">  </span><span class="kw">rmse</span>(<span class="dt">truth =</span> BodyTemp, .pred)
+
+train_rmse2 <span class="co">#The value is 1.21.</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        1.21</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Now we repeat this on the test data.</span>
+<span class="co">#We use RMSE on BodyTemp against Runnt nose and use the test data.</span>
+<span class="co">#Make predictions.</span>
+<span class="kw">predict</span>(cont_fit2, test_data)</code></pre></div>
+<pre><code>## # A tibble: 183 x 1
+##    .pred
+##    &lt;dbl&gt;
+##  1  99.1
+##  2  98.9
+##  3  98.9
+##  4  98.9
+##  5  99.1
+##  6  99.1
+##  7  98.9
+##  8  99.1
+##  9  99.1
+## 10  99.1
+## # ... with 173 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Returns predicted class probabiliies</span>
+cont_aug_test2 &lt;-<span class="st"> </span><span class="kw">augment</span>(cont_fit2, test_data)
+cont_aug_test2</code></pre></div>
+<pre><code>## # A tibble: 183 x 27
+##    SwollenLymphNodes ChestCongestion ChillsSweats NasalCongestion Sneeze Fatigue
+##    &lt;fct&gt;             &lt;fct&gt;           &lt;fct&gt;        &lt;fct&gt;           &lt;fct&gt;  &lt;fct&gt;  
+##  1 Yes               No              No           No              No     Yes    
+##  2 Yes               Yes             Yes          Yes             Yes    Yes    
+##  3 No                No              Yes          No              No     Yes    
+##  4 Yes               Yes             Yes          Yes             Yes    Yes    
+##  5 No                Yes             No           No              Yes    Yes    
+##  6 No                No              Yes          Yes             No     Yes    
+##  7 No                No              Yes          Yes             Yes    Yes    
+##  8 Yes               Yes             Yes          Yes             Yes    Yes    
+##  9 No                No              Yes          Yes             No     Yes    
+## 10 No                No              Yes          Yes             Yes    Yes    
+## # ... with 173 more rows, and 21 more variables: SubjectiveFever &lt;fct&gt;,
+## #   Headache &lt;fct&gt;, Weakness &lt;ord&gt;, CoughIntensity &lt;ord&gt;, Myalgia &lt;ord&gt;,
+## #   RunnyNose &lt;fct&gt;, AbPain &lt;fct&gt;, ChestPain &lt;fct&gt;, Diarrhea &lt;fct&gt;,
+## #   EyePn &lt;fct&gt;, Insomnia &lt;fct&gt;, ItchyEye &lt;fct&gt;, Nausea &lt;fct&gt;, EarPn &lt;fct&gt;,
+## #   Pharyngitis &lt;fct&gt;, Breathless &lt;fct&gt;, ToothPn &lt;fct&gt;, Vomit &lt;fct&gt;,
+## #   Wheeze &lt;fct&gt;, BodyTemp &lt;dbl&gt;, .pred &lt;dbl&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#RMSE</span>
+test_rmse2 &lt;-<span class="st"> </span>cont_aug_test2 %&gt;%
+<span class="st">  </span><span class="kw">rmse</span>(<span class="dt">truth =</span> BodyTemp, .pred)
+
+test_rmse2 <span class="co">#The value is 1.13.</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        1.13</code></pre>
+<p>Exercise 10 * Main outcome: continuous, numerical value of body temperature</p>
+<p>Splitting and resampling data</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Fix the random numbers by setting a seed</span>
+<span class="co">#this enables the analysis to be reproducible when random #s are used</span>
+<span class="kw">set.seed</span>(<span class="dv">123</span>)
+
+<span class="co">#The rates of bodytemp are somewhat unbalanced</span>
+mydata %&gt;%
+<span class="st">  </span><span class="kw">count</span>(BodyTemp) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prop =</span> n/<span class="kw">sum</span>(n))</code></pre></div>
+<pre><code>##    BodyTemp  n        prop
+## 1      97.2  2 0.002739726
+## 2      97.3  1 0.001369863
+## 3      97.4  7 0.009589041
+## 4      97.5  9 0.012328767
+## 5      97.6  7 0.009589041
+## 6      97.7 14 0.019178082
+## 7      97.8 23 0.031506849
+## 8      97.9 29 0.039726027
+## 9      98.0 30 0.041095890
+## 10     98.1 46 0.063013699
+## 11     98.2 50 0.068493151
+## 12     98.3 62 0.084931507
+## 13     98.4 40 0.054794521
+## 14     98.5 53 0.072602740
+## 15     98.6 27 0.036986301
+## 16     98.7 35 0.047945205
+## 17     98.8 24 0.032876712
+## 18     98.9 23 0.031506849
+## 19     99.0 25 0.034246575
+## 20     99.1 15 0.020547945
+## 21     99.2 20 0.027397260
+## 22     99.3 18 0.024657534
+## 23     99.4 11 0.015068493
+## 24     99.5 14 0.019178082
+## 25     99.6  6 0.008219178
+## 26     99.7 11 0.015068493
+## 27     99.8  6 0.008219178
+## 28     99.9 10 0.013698630
+## 29    100.0  7 0.009589041
+## 30    100.1  7 0.009589041
+## 31    100.2  8 0.010958904
+## 32    100.3  5 0.006849315
+## 33    100.4  7 0.009589041
+## 34    100.5  5 0.006849315
+## 35    100.6  4 0.005479452
+## 36    100.8  2 0.002739726
+## 37    100.9  9 0.012328767
+## 38    101.0  2 0.002739726
+## 39    101.1  3 0.004109589
+## 40    101.2  4 0.005479452
+## 41    101.3  1 0.001369863
+## 42    101.5  2 0.002739726
+## 43    101.6  2 0.002739726
+## 44    101.7  3 0.004109589
+## 45    101.8  4 0.005479452
+## 46    101.9  6 0.008219178
+## 47    102.0  2 0.002739726
+## 48    102.1  2 0.002739726
+## 49    102.2  3 0.004109589
+## 50    102.4  2 0.002739726
+## 51    102.5  2 0.002739726
+## 52    102.6  3 0.004109589
+## 53    102.7  2 0.002739726
+## 54    102.8  5 0.006849315
+## 55    102.9  1 0.001369863
+## 56    103.0  7 0.009589041
+## 57    103.1  2 0.002739726</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Split the dataset into 70% training, 30% testing</span>
+<span class="co">#Despite imbalance we noticed in bodytemp, </span>
+  <span class="co">#stratified split ensures that training and test data sets will keep roughly the same proportions of bodytemp</span>
+data_split &lt;-<span class="st"> </span><span class="kw">initial_split</span>(mydata, <span class="dt">prop =</span> <span class="fl">0.7</span>, <span class="dt">strata =</span> BodyTemp)
+
+<span class="co">#Create data frames for the two sets</span>
+train_data &lt;-<span class="st"> </span><span class="kw">training</span>(data_split)
+test_data &lt;-<span class="st"> </span><span class="kw">testing</span>(data_split)</code></pre></div>
+<p>Cross validation</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#We want to do 5-fold cross-validation, 5 times repeated</span>
+<span class="co">#For the CV folds, we also want to stratify on BodyTemp</span>
+
+<span class="co">#V-fold cross-validation (vfold_cv) randomly splits the data into V groups of roughly equal size (called &quot;folds&quot;)</span>
+resample_object &lt;-<span class="st"> </span><span class="kw">vfold_cv</span>(train_data, <span class="dt">v =</span> <span class="dv">5</span>, <span class="dt">repeats =</span> <span class="dv">5</span>, <span class="dt">strata =</span> BodyTemp)</code></pre></div>
+<p>Create a recipe for the data and fitting</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Code the categorical variables as dummy variables using step_dummy </span>
+  <span class="co">#and pick all nominal predictors</span>
+
+<span class="co">#Continuous outcome of interest = BodyTemp</span>
+<span class="co">#Step_dummy creates a set of binary dummy variables from a factor variable</span>
+processed_cont_rec &lt;-<span class="st"> </span><span class="kw">recipe</span>(BodyTemp ~<span class="st"> </span>., <span class="dt">data =</span> train_data) %&gt;%
+<span class="st">  </span><span class="kw">step_dummy</span>(<span class="kw">all_nominal_predictors</span>())
+
+<span class="kw">class</span>(processed_cont_rec$template$Weakness)</code></pre></div>
+<pre><code>## [1] &quot;ordered&quot; &quot;factor&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(processed_cont_rec)</code></pre></div>
+<pre><code>## # A tibble: 1 x 6
+##   number operation type  trained skip  id         
+##    &lt;int&gt; &lt;chr&gt;     &lt;chr&gt; &lt;lgl&gt;   &lt;lgl&gt; &lt;chr&gt;      
+## 1      1 step      dummy FALSE   FALSE dummy_I1Cwj</code></pre>
+<p>Null model performance</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#For a continuous outcome and RMSE as our metric, </span>
+  <span class="co">#a null model is one that always predicts the mean of the outcome.</span>
+lm_mod &lt;-<span class="st"> </span><span class="kw">linear_reg</span>() %&gt;%<span class="st"> </span>
+<span class="st">            </span><span class="kw">set_engine</span>(<span class="st">&#39;lm&#39;</span>) %&gt;%<span class="st"> </span>
+<span class="st">            </span><span class="kw">set_mode</span>(<span class="st">&#39;regression&#39;</span>)
+
+null_rec &lt;-<span class="st"> </span><span class="kw">recipe</span>(BodyTemp ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> train_data) 
+
+null_workflow &lt;-<span class="st"> </span><span class="kw">workflow</span>() %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">add_model</span>(lm_mod) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">add_recipe</span>(null_rec)
+
+null_workflow</code></pre></div>
+<pre><code>## == Workflow ====================================================================
+## Preprocessor: Recipe
+## Model: linear_reg()
+## 
+## -- Preprocessor ----------------------------------------------------------------
+## 0 Recipe Steps
+## 
+## -- Model -----------------------------------------------------------------------
+## Linear Regression Model Specification (regression)
+## 
+## Computational engine: lm</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">null_fit &lt;-<span class="st"> </span>null_workflow %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">fit</span>(<span class="dt">data =</span> train_data)
+
+<span class="co">#On Test data</span>
+<span class="kw">predict</span>(null_fit, test_data) </code></pre></div>
+<pre><code>## # A tibble: 222 x 1
+##    .pred
+##    &lt;dbl&gt;
+##  1  98.9
+##  2  98.9
+##  3  98.9
+##  4  98.9
+##  5  98.9
+##  6  98.9
+##  7  98.9
+##  8  98.9
+##  9  98.9
+## 10  98.9
+## # ... with 212 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">null_fit_test &lt;-<span class="st"> </span><span class="kw">augment</span>(null_fit, test_data)
+null_fit_test</code></pre></div>
+<pre><code>## # A tibble: 222 x 27
+##    SwollenLymphNodes ChestCongestion ChillsSweats NasalCongestion Sneeze Fatigue
+##    &lt;fct&gt;             &lt;fct&gt;           &lt;fct&gt;        &lt;fct&gt;           &lt;fct&gt;  &lt;fct&gt;  
+##  1 Yes               Yes             No           Yes             No     Yes    
+##  2 Yes               Yes             Yes          Yes             Yes    Yes    
+##  3 Yes               Yes             Yes          Yes             No     Yes    
+##  4 Yes               Yes             Yes          Yes             No     Yes    
+##  5 Yes               Yes             Yes          Yes             Yes    Yes    
+##  6 No                No              Yes          No              No     Yes    
+##  7 No                No              Yes          Yes             No     Yes    
+##  8 No                Yes             Yes          Yes             No     Yes    
+##  9 Yes               Yes             Yes          Yes             No     Yes    
+## 10 No                No              Yes          Yes             No     Yes    
+## # ... with 212 more rows, and 21 more variables: SubjectiveFever &lt;fct&gt;,
+## #   Headache &lt;fct&gt;, Weakness &lt;ord&gt;, CoughIntensity &lt;ord&gt;, Myalgia &lt;ord&gt;,
+## #   RunnyNose &lt;fct&gt;, AbPain &lt;fct&gt;, ChestPain &lt;fct&gt;, Diarrhea &lt;fct&gt;,
+## #   EyePn &lt;fct&gt;, Insomnia &lt;fct&gt;, ItchyEye &lt;fct&gt;, Nausea &lt;fct&gt;, EarPn &lt;fct&gt;,
+## #   Pharyngitis &lt;fct&gt;, Breathless &lt;fct&gt;, ToothPn &lt;fct&gt;, Vomit &lt;fct&gt;,
+## #   Wheeze &lt;fct&gt;, BodyTemp &lt;dbl&gt;, .pred &lt;dbl&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">null_fit_test %&gt;%
+<span class="st">  </span><span class="kw">rmse</span>(<span class="dt">truth =</span> BodyTemp, .pred) <span class="co">#1.16</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        1.16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#On Train data</span>
+<span class="kw">predict</span>(null_fit, train_data)</code></pre></div>
+<pre><code>## # A tibble: 508 x 1
+##    .pred
+##    &lt;dbl&gt;
+##  1  98.9
+##  2  98.9
+##  3  98.9
+##  4  98.9
+##  5  98.9
+##  6  98.9
+##  7  98.9
+##  8  98.9
+##  9  98.9
+## 10  98.9
+## # ... with 498 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">null_fit_train &lt;-<span class="st"> </span><span class="kw">augment</span>(null_fit, train_data)
+null_fit_train</code></pre></div>
+<pre><code>## # A tibble: 508 x 27
+##    SwollenLymphNodes ChestCongestion ChillsSweats NasalCongestion Sneeze Fatigue
+##    &lt;fct&gt;             &lt;fct&gt;           &lt;fct&gt;        &lt;fct&gt;           &lt;fct&gt;  &lt;fct&gt;  
+##  1 No                Yes             No           Yes             No     Yes    
+##  2 Yes               Yes             Yes          Yes             No     Yes    
+##  3 Yes               Yes             Yes          Yes             Yes    Yes    
+##  4 Yes               Yes             Yes          Yes             Yes    Yes    
+##  5 No                Yes             No           No              Yes    Yes    
+##  6 No                No              Yes          Yes             Yes    Yes    
+##  7 No                No              No           Yes             Yes    Yes    
+##  8 No                Yes             Yes          No              No     Yes    
+##  9 No                No              Yes          Yes             No     No     
+## 10 Yes               Yes             Yes          Yes             No     Yes    
+## # ... with 498 more rows, and 21 more variables: SubjectiveFever &lt;fct&gt;,
+## #   Headache &lt;fct&gt;, Weakness &lt;ord&gt;, CoughIntensity &lt;ord&gt;, Myalgia &lt;ord&gt;,
+## #   RunnyNose &lt;fct&gt;, AbPain &lt;fct&gt;, ChestPain &lt;fct&gt;, Diarrhea &lt;fct&gt;,
+## #   EyePn &lt;fct&gt;, Insomnia &lt;fct&gt;, ItchyEye &lt;fct&gt;, Nausea &lt;fct&gt;, EarPn &lt;fct&gt;,
+## #   Pharyngitis &lt;fct&gt;, Breathless &lt;fct&gt;, ToothPn &lt;fct&gt;, Vomit &lt;fct&gt;,
+## #   Wheeze &lt;fct&gt;, BodyTemp &lt;dbl&gt;, .pred &lt;dbl&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">null_fit_train %&gt;%
+<span class="st">  </span><span class="kw">rmse</span>(<span class="dt">truth =</span> BodyTemp, .pred) <span class="co">#1.21...wouldn&#39;t the rmse be better on train data though?</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        1.21</code></pre>
+<ul>
+<li>Fit a tree, a LASSO model, and a random forest</li>
+<li>For the tree, see the Tune model parameters section of the Get Started tutorial.</li>
+<li>For LASSO and the random forest, check out the Case Study section of the Get Started tutorial.</li>
+<li><p>Packages to fit these 3 models: rpart, glmnet and ranger</p></li>
+<li>The steps (block of code) you should have here are
+<ul>
+<li><ol style="list-style-type: decimal">
+<li>model specification,</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li>workflow definition,</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: decimal">
+<li>tune grid specification, and</li>
+</ol></li>
+<li><ol start="4" style="list-style-type: decimal">
+<li>tuning using cross-validation and the tune_grid function</li>
+</ol></li>
+</ul></li>
+</ul>
+<p>Tree Model</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Decision tree models are prone to overfitting</span>
+<span class="co">#Tuning the hyperparameters cost_complexity and maximum tree_depth can improve model performance</span>
+<span class="co">#Tuning cost_complexity prunes the tree by ading a cost/penalty to error rates of more complex trees</span>
+<span class="co">#Low cost decreases the number of tree nodes pruned -&gt; overfitting</span>
+<span class="co">#High cost increases the number of tree nodes pruned -&gt; underfitting</span>
+<span class="co">#Tuning tree_depth stops our tree from growing after it reaches a certain depth</span>
+
+<span class="co">#Model specification:</span>
+tune_spec &lt;-<span class="st"> </span><span class="kw">decision_tree</span>(
+    <span class="dt">cost_complexity =</span> <span class="kw">tune</span>(),
+    <span class="dt">tree_depth =</span> <span class="kw">tune</span>()) %&gt;%
+<span class="st">  </span><span class="kw">set_engine</span>(<span class="st">&quot;rpart&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">set_mode</span>(<span class="st">&quot;regression&quot;</span>)
+
+tune_spec</code></pre></div>
+<pre><code>## Decision Tree Model Specification (regression)
+## 
+## Main Arguments:
+##   cost_complexity = tune()
+##   tree_depth = tune()
+## 
+## Computational engine: rpart</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Tune grid specification:</span>
+<span class="co">#grid_regular() from the dials package chooses sensible values to try for each hyperparameter</span>
+<span class="co">#grid filled with 25 candidate decision tree models </span>
+tree_grid &lt;-
+<span class="st">  </span><span class="kw">grid_regular</span>(<span class="kw">cost_complexity</span>(),
+               <span class="kw">tree_depth</span>(),
+               <span class="dt">levels =</span> <span class="dv">5</span>)
+
+tree_grid</code></pre></div>
+<pre><code>## # A tibble: 25 x 2
+##    cost_complexity tree_depth
+##              &lt;dbl&gt;      &lt;int&gt;
+##  1    0.0000000001          1
+##  2    0.0000000178          1
+##  3    0.00000316            1
+##  4    0.000562              1
+##  5    0.1                   1
+##  6    0.0000000001          4
+##  7    0.0000000178          4
+##  8    0.00000316            4
+##  9    0.000562              4
+## 10    0.1                   4
+## # ... with 15 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Workflow definition</span>
+<span class="co">#Use tune_grid() to fit models at all the different values we chose for each hyperparameter</span>
+tree_wf &lt;-<span class="st"> </span><span class="kw">workflow</span>() %&gt;%
+<span class="st">  </span><span class="kw">add_model</span>(tune_spec) %&gt;%
+<span class="st">  </span><span class="kw">add_recipe</span>(processed_cont_rec)
+
+tree_res &lt;-<span class="st"> </span>tree_wf %&gt;%
+<span class="st">  </span><span class="kw">tune_grid</span>(
+    <span class="dt">resamples =</span> resample_object,
+    <span class="dt">grid =</span> tree_grid
+  )</code></pre></div>
+<pre><code>## Warning: package &#39;rlang&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;vctrs&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## ! Fold1, Repeat1: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold2, Repeat1: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold3, Repeat1: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold4, Repeat1: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold5, Repeat1: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold1, Repeat2: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold2, Repeat2: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold3, Repeat2: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold4, Repeat2: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold5, Repeat2: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold1, Repeat3: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold2, Repeat3: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold3, Repeat3: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold4, Repeat3: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold5, Repeat3: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold1, Repeat4: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold2, Repeat4: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold3, Repeat4: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold4, Repeat4: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold5, Repeat4: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold1, Repeat5: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold2, Repeat5: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold3, Repeat5: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold4, Repeat5: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<pre><code>## ! Fold5, Repeat5: internal: A correlation computation is required, but `estimate` is const...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Can these warnings be ignored? </span>
+<span class="co">#&quot;A correlation computation is required, but &quot;estimate&quot; is constant nd has 0 standard deviation, resulting in a divide by 0&quot;</span>
+tree_res %&gt;%
+<span class="st">  </span>collect_metrics</code></pre></div>
+<pre><code>## # A tibble: 50 x 8
+##    cost_complexity tree_depth .metric .estimator     mean     n  std_err .config
+##              &lt;dbl&gt;      &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;  
+##  1    0.0000000001          1 rmse    standard     1.19      25  0.0181  Prepro~
+##  2    0.0000000001          1 rsq     standard     0.0361    25  0.00422 Prepro~
+##  3    0.0000000178          1 rmse    standard     1.19      25  0.0181  Prepro~
+##  4    0.0000000178          1 rsq     standard     0.0361    25  0.00422 Prepro~
+##  5    0.00000316            1 rmse    standard     1.19      25  0.0181  Prepro~
+##  6    0.00000316            1 rsq     standard     0.0361    25  0.00422 Prepro~
+##  7    0.000562              1 rmse    standard     1.19      25  0.0181  Prepro~
+##  8    0.000562              1 rsq     standard     0.0361    25  0.00422 Prepro~
+##  9    0.1                   1 rmse    standard     1.21      25  0.0177  Prepro~
+## 10    0.1                   1 rsq     standard   NaN          0 NA       Prepro~
+## # ... with 40 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tree_res %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">autoplot</span>()</code></pre></div>
+<p><img src="analysisscript_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tree_res %&gt;%
+<span class="st">  </span><span class="kw">show_best</span>(<span class="st">&quot;rmse&quot;</span>) </code></pre></div>
+<pre><code>## # A tibble: 5 x 8
+##   cost_complexity tree_depth .metric .estimator  mean     n std_err .config     
+##             &lt;dbl&gt;      &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;       
+## 1    0.0000000001          1 rmse    standard    1.19    25  0.0181 Preprocesso~
+## 2    0.0000000178          1 rmse    standard    1.19    25  0.0181 Preprocesso~
+## 3    0.00000316            1 rmse    standard    1.19    25  0.0181 Preprocesso~
+## 4    0.000562              1 rmse    standard    1.19    25  0.0181 Preprocesso~
+## 5    0.0000000001          4 rmse    standard    1.20    25  0.0182 Preprocesso~</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Pull out the single set of hyperparameter values for our best decision tree model</span>
+best_tree &lt;-<span class="st"> </span><span class="kw">select_best</span>(tree_res)</code></pre></div>
+<pre><code>## Warning: No value of `metric` was given; metric &#39;rmse&#39; will be used.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#These are the values for tree_depth and cost_complexity that maximize accuracy</span>
+best_tree</code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##   cost_complexity tree_depth .config              
+##             &lt;dbl&gt;      &lt;int&gt; &lt;chr&gt;                
+## 1    0.0000000001          1 Preprocessor1_Model01</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Update our workflow with the values from select_best()</span>
+best_tree_wf &lt;-<span class="st"> </span>tree_wf %&gt;%
+<span class="st">  </span><span class="kw">finalize_workflow</span>(best_tree)
+
+best_tree_wf</code></pre></div>
+<pre><code>## == Workflow ====================================================================
+## Preprocessor: Recipe
+## Model: decision_tree()
+## 
+## -- Preprocessor ----------------------------------------------------------------
+## 1 Recipe Step
+## 
+## * step_dummy()
+## 
+## -- Model -----------------------------------------------------------------------
+## Decision Tree Model Specification (regression)
+## 
+## Main Arguments:
+##   cost_complexity = 1e-10
+##   tree_depth = 1
+## 
+## Computational engine: rpart</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Fit final model to training data and evaluates finalized model on the testing data</span>
+best_tree_fit &lt;-<span class="st"> </span>best_tree_wf %&gt;%
+<span class="st">  </span><span class="kw">last_fit</span>(data_split)
+
+best_tree_fit %&gt;%
+<span class="st">  </span><span class="kw">collect_metrics</span>() <span class="co">#RMSE = 1.19</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 4
+##   .metric .estimator .estimate .config             
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+## 1 rmse    standard    1.19     Preprocessor1_Model1
+## 2 rsq     standard    0.000889 Preprocessor1_Model1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Plot residuals</span>
+<span class="co">#!!!!!!!!!!!!!!</span>
+
+
+<span class="co">#Plot the tree</span>
+best_tree_fit %&gt;%
+<span class="st">  </span><span class="kw">extract_fit_engine</span>() %&gt;%
+<span class="st">  </span><span class="kw">rpart.plot</span>(<span class="dt">roundint =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p><img src="analysisscript_files/figure-html/unnamed-chunk-20-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#What variables are important in this model?</span>
+best_tree_fit %&gt;%
+<span class="st">  </span><span class="kw">extract_fit_parsnip</span>() %&gt;%
+<span class="st">  </span><span class="kw">vip</span>() <span class="co">#Sneeze_yes, runnynose_yes, nasal_congestion_yes,</span></code></pre></div>
+<p><img src="analysisscript_files/figure-html/unnamed-chunk-20-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">        <span class="co">#weakness_3, headache_yes, itchyeye_yes</span></code></pre></div>
+<p>Lasso</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#LASSO is a penalization method for less relevant preictors</span>
+<span class="co">#Model specification:</span>
+tune_spec_lasso &lt;-<span class="st"> </span><span class="kw">linear_reg</span>(<span class="dt">penalty =</span> <span class="kw">tune</span>(),
+  <span class="dt">mixture =</span> <span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="co">#glmnet model will potentially remove irrelevant predictors and choose a simpler model</span>
+<span class="st">  </span><span class="kw">set_engine</span>(<span class="st">&quot;glmnet&quot;</span>) <span class="co">#fits glm models via penalized maximum likelihood</span>
+
+tune_spec_lasso</code></pre></div>
+<pre><code>## Linear Regression Model Specification (regression)
+## 
+## Main Arguments:
+##   penalty = tune()
+##   mixture = 1
+## 
+## Computational engine: glmnet</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Workflow</span>
+lasso_workflow &lt;-
+<span class="st">  </span><span class="kw">workflow</span>() %&gt;%
+<span class="st">  </span><span class="kw">add_model</span>(tune_spec_lasso) %&gt;%
+<span class="st">  </span><span class="kw">add_recipe</span>(processed_cont_rec)
+
+<span class="co">#Tuning grid</span>
+lasso_grid &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">penalty =</span> <span class="dv">10</span>^<span class="kw">seq</span>(-<span class="dv">4</span>,-<span class="dv">1</span>,<span class="dt">length.out =</span> <span class="dv">30</span>)) <span class="co">#30 candidate values</span>
+lasso_grid %&gt;%<span class="st"> </span><span class="kw">top_n</span>(-<span class="dv">5</span>) <span class="co">#lowest penalty values</span></code></pre></div>
+<pre><code>## Selecting by penalty</code></pre>
+<pre><code>## # A tibble: 5 x 1
+##    penalty
+##      &lt;dbl&gt;
+## 1 0.0001  
+## 2 0.000127
+## 3 0.000161
+## 4 0.000204
+## 5 0.000259</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lasso_grid %&gt;%<span class="st"> </span><span class="kw">top_n</span>(<span class="dv">5</span>) <span class="co">#highest penalty values</span></code></pre></div>
+<pre><code>## Selecting by penalty</code></pre>
+<pre><code>## # A tibble: 5 x 1
+##   penalty
+##     &lt;dbl&gt;
+## 1  0.0386
+## 2  0.0489
+## 3  0.0621
+## 4  0.0788
+## 5  0.1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lasso_res &lt;-
+<span class="st">  </span>lasso_workflow %&gt;%
+<span class="st">  </span><span class="kw">tune_grid</span>(resample_object,
+            <span class="dt">grid =</span> lasso_grid,
+            <span class="dt">control =</span> 
+              <span class="kw">control_grid</span>(<span class="dt">save_pred =</span> <span class="ot">TRUE</span>),
+            <span class="dt">metrics =</span> 
+              <span class="kw">metric_set</span>(rmse))
+
+top_models &lt;-<span class="st"> </span>lasso_res %&gt;%
+<span class="st">  </span><span class="kw">show_best</span>(<span class="st">&quot;rmse&quot;</span>, <span class="dt">n =</span> <span class="dv">15</span>) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(penalty)
+
+top_models</code></pre></div>
+<pre><code>## # A tibble: 15 x 7
+##    penalty .metric .estimator  mean     n std_err .config              
+##      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;                
+##  1 0.00356 rmse    standard    1.17    25  0.0167 Preprocessor1_Model16
+##  2 0.00452 rmse    standard    1.17    25  0.0167 Preprocessor1_Model17
+##  3 0.00574 rmse    standard    1.17    25  0.0167 Preprocessor1_Model18
+##  4 0.00728 rmse    standard    1.17    25  0.0167 Preprocessor1_Model19
+##  5 0.00924 rmse    standard    1.17    25  0.0167 Preprocessor1_Model20
+##  6 0.0117  rmse    standard    1.17    25  0.0167 Preprocessor1_Model21
+##  7 0.0149  rmse    standard    1.16    25  0.0167 Preprocessor1_Model22
+##  8 0.0189  rmse    standard    1.16    25  0.0167 Preprocessor1_Model23
+##  9 0.0240  rmse    standard    1.16    25  0.0168 Preprocessor1_Model24
+## 10 0.0304  rmse    standard    1.16    25  0.0169 Preprocessor1_Model25
+## 11 0.0386  rmse    standard    1.15    25  0.0169 Preprocessor1_Model26
+## 12 0.0489  rmse    standard    1.15    25  0.0169 Preprocessor1_Model27
+## 13 0.0621  rmse    standard    1.15    25  0.0169 Preprocessor1_Model28
+## 14 0.0788  rmse    standard    1.16    25  0.0171 Preprocessor1_Model29
+## 15 0.1     rmse    standard    1.16    25  0.0173 Preprocessor1_Model30</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Models 11-13 have best rmse value (1.15) </span>
+
+lasso_res %&gt;%
+<span class="st">  </span><span class="kw">collect_metrics</span>() %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(penalty, mean, <span class="dt">color =</span> .metric)) +
+<span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(
+    <span class="dt">ymin =</span> mean -<span class="st"> </span>std_err,
+    <span class="dt">ymax =</span> mean +<span class="st"> </span>std_err
+    ),
+    <span class="dt">alpha =</span><span class="fl">0.5</span>
+    ) +
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">size =</span> <span class="fl">1.5</span>) +
+<span class="st">    </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>.metric, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="dt">nrow =</span> <span class="dv">2</span>) +
+<span class="st">    </span><span class="kw">scale_x_log10</span>() +
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</code></pre></div>
+<p><img src="analysisscript_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lowest_rmse &lt;-<span class="st"> </span>lasso_res %&gt;%
+<span class="st">  </span><span class="kw">select_best</span>(<span class="st">&quot;rmse&quot;</span>, <span class="dt">maximize =</span> <span class="ot">FALSE</span>) <span class="co">#ideally, would also choose lowest rmse with highest penalty </span></code></pre></div>
+<pre><code>## Warning: The `maximize` argument is no longer needed. This value was ignored.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#I would choose model 13 to get the same model performance with fewer irrelevant predictors</span>
+
+lowest_rmse</code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   penalty .config              
+##     &lt;dbl&gt; &lt;chr&gt;                
+## 1  0.0621 Preprocessor1_Model28</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">final_workflow &lt;-<span class="st"> </span>
+<span class="st">  </span>lasso_workflow %&gt;%
+<span class="st">  </span><span class="kw">finalize_workflow</span>(lowest_rmse)
+
+final_lasso &lt;-<span class="st"> </span>
+<span class="st">  </span>final_workflow %&gt;%
+<span class="st">  </span><span class="kw">last_fit</span>(data_split)
+
+<span class="co">#Plot how the # of predictors included in the LASSO model changes with the tuning parameter: </span>
+<span class="co">#Extract the model from your final fit with x &lt;- best_lasso_fit$fit$fit$fit and then plot(x, &quot;lambda&quot;)</span>
+<span class="co">#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span></code></pre></div>
+<p>Random Forest Model</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#A random forest is an ensemble model typically made up of 1000s of decision trees</span>
+
+cores &lt;-<span class="st"> </span>parallel::<span class="kw">detectCores</span>()
+cores <span class="co">#4</span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rf_mod &lt;-<span class="st"> </span><span class="kw">rand_forest</span>(<span class="dt">mtry =</span> <span class="kw">tune</span>(), <span class="dt">min_n =</span> <span class="kw">tune</span>(), <span class="dt">trees =</span> <span class="dv">1000</span>) %&gt;%
+<span class="st">  </span><span class="kw">set_engine</span>(<span class="st">&quot;ranger&quot;</span>, <span class="dt">num.threads =</span> cores) %&gt;%
+<span class="st">  </span><span class="kw">set_mode</span>(<span class="st">&quot;regression&quot;</span>)
+
+rf_mod %&gt;%
+<span class="st">  </span><span class="kw">parameters</span>() <span class="co">#mtry: sets the # of predictor variables that each node in the decision tree &quot;sees&quot; and can learn about</span></code></pre></div>
+<pre><code>## Collection of 2 parameters for tuning
+## 
+##  identifier  type    object
+##        mtry  mtry nparam[?]
+##       min_n min_n nparam[+]
+## 
+## Model parameters needing finalization:
+##    # Randomly Selected Predictors (&#39;mtry&#39;)
+## 
+## See `?dials::finalize` or `?dials::update.parameters` for more information.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">               <span class="co">#min_n: sets the minimum n to split at any node</span>
+
+rf_workflow &lt;-
+<span class="st">  </span><span class="kw">workflow</span>() %&gt;%
+<span class="st">  </span><span class="kw">add_model</span>(rf_mod) %&gt;%
+<span class="st">  </span><span class="kw">add_recipe</span>(processed_cont_rec)
+
+<span class="kw">set.seed</span>(<span class="dv">345</span>)
+rf_res &lt;-
+<span class="st">  </span>rf_workflow %&gt;%
+<span class="st">  </span><span class="kw">tune_grid</span>(resample_object,
+            <span class="dt">grid =</span> <span class="dv">25</span>, <span class="co">#25 candidate models</span>
+            <span class="dt">control =</span> 
+              <span class="kw">control_grid</span>(<span class="dt">save_pred =</span> <span class="ot">TRUE</span>),
+            <span class="dt">metrics =</span> 
+              <span class="kw">metric_set</span>(rmse))</code></pre></div>
+<pre><code>## i Creating pre-processing data to finalize unknown parameter: mtry</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rf_res %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">show_best</span>(<span class="dt">metric =</span> <span class="st">&quot;rmse&quot;</span>) <span class="co">#best rmse is 1.16</span></code></pre></div>
+<pre><code>## # A tibble: 5 x 8
+##    mtry min_n .metric .estimator  mean     n std_err .config              
+##   &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;                
+## 1     5    35 rmse    standard    1.16    25  0.0168 Preprocessor1_Model12
+## 2     3    31 rmse    standard    1.17    25  0.0167 Preprocessor1_Model15
+## 3     8    25 rmse    standard    1.17    25  0.0166 Preprocessor1_Model03
+## 4     6    18 rmse    standard    1.17    25  0.0164 Preprocessor1_Model24
+## 5    11    25 rmse    standard    1.17    25  0.0164 Preprocessor1_Model08</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">autoplot</span>(rf_res) <span class="co">#plots the results of the tuning process</span></code></pre></div>
+<p><img src="analysisscript_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Number of randomly selected predictors should be small (&lt; 10) and minimal node size should be large (&gt;30) to minimize rmse</span>
+
+rf_best &lt;-
+<span class="st">  </span>rf_res %&gt;%
+<span class="st">  </span><span class="kw">select_best</span>(<span class="dt">metric =</span> <span class="st">&quot;rmse&quot;</span>)
+
+rf_best <span class="co">#mtry = 5, min_n = 34</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##    mtry min_n .config              
+##   &lt;int&gt; &lt;int&gt; &lt;chr&gt;                
+## 1     5    35 Preprocessor1_Model12</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">final_workflow &lt;-<span class="st"> </span>
+<span class="st">  </span>rf_workflow %&gt;%
+<span class="st">  </span><span class="kw">finalize_workflow</span>(rf_best)
+
+final_forest &lt;-<span class="st"> </span>
+<span class="st">  </span>final_workflow %&gt;%
+<span class="st">  </span><span class="kw">last_fit</span>(data_split)
+
+<span class="co">#Plot the most important variables: </span>
+<span class="co">#x &lt;- best_rf_fit$fit$fit$fit and then use the vip() function from the vip package</span>
+<span class="co">#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Now, you should for each model have a &quot;best&quot; one based on the tuning process</span>
+  <span class="co">#Each best model gives you performance, uncertainty around the performance measure, and some diagnostic plots</span>
+  <span class="co">#In the future, you&#39;d want to look at the uncertainty in predictions, too</span>
+  <span class="co">#Pick 1 of the 3 models and justify</span>
+
+<span class="co">#I would examine the rmse (which was not really that different between the three models), plot of the residuals, and plot of predictions vs observed to compare each model.</span>
+
+<span class="co">#Once you pick your final model, you are allowed to once (and only once) fit it to the test data using the last_fit() funciton</span>
+<span class="co">#Report performance and diagnostic plots</span>
+
+<span class="co">#Main analysis Rmd file should produce HTML page</span></code></pre></div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

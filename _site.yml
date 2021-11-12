@@ -19,6 +19,11 @@ navbar:
           href: ./visualization.html
         - text: "Tidy Tuesday"
           href: ./tidytuesday.html
+        - text: "Tidy Tuesday 2 Exercise"
+          href: ./tidytuesday_exercise2.html
+        - text: "Analysis 3"
+          href: ./analysisscript.html
+          
   right:
     - icon: fa-github fa-lg
       href: https://github.com/Gabriella-Veytsel/Gabriella_Veytsel-MADA-portfolio   

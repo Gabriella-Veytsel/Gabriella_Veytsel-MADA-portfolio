@@ -1,1 +1,1 @@
-# MADA 2021 website and data analysis portfolio
+This is the Github repository for my Modern Applied Data Analysis (MADA) 2021 data analysis portfolio
