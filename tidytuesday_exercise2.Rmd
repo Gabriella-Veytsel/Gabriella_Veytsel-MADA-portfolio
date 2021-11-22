@@ -5,4 +5,312 @@ output:
     toc: FALSE
 ---
 
-To be filled
+Load the packages
+```{r}
+library(tidymodels)
+library(tidyverse)
+library(ggplot2)
+library(skimr)
+library(janitor)
+library(rpart)
+library(rpart.plot)
+```
+
+Load the data
+```{r}
+marbles <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-06-02/marbles.csv')
+```
+
+Look at the data
+Observations: 
+* Date is a character variable; should be date
+* Host is binary yes/no, character; should be factor
+* Looks like there are 16 marble teams, 16 races, 32 marble names
+* Half of the points variable is missing, might want to remove it or impute
+
+```{r}
+glimpse(marbles)
+summary(marbles)
+skim(marbles) #awesome function from skimr package
+
+table(marbles$date, useNA  = "ifany") #16 days
+table(marbles$site, useNA  = "ifany") #8 sites 
+table(marbles$track_length_m, useNA  = "ifany") #8 track lengths
+table(marbles$race, useNA  = "ifany") #16 races
+table(marbles$team_name, useNA  = "ifany") #16 teams
+table(marbles$number_laps, useNA  = "ifany") #7 options
+```
+
+Clean the data
+```{r}
+marbles_clean <- marbles %>%
+  janitor::clean_names() 
+
+marbles_clean <- marbles %>%
+  mutate(team_name = as.factor(team_name)) %>%
+  mutate(host = as.factor(host)) %>%
+  mutate(site = as.factor(site)) %>%
+  mutate(date_formatted = as.Date(date, format = "%d-%b-%y"))
+
+marbles_clean %>%
+  dplyr::select(date_formatted, date) %>% 
+  tail() #check formatted properly
+```
+
+Explore the data
+```{r}
+#Each site has a different track length, from about 11-15 m
+ggplot(data = marbles_clean, aes(x=site, y=track_length_m)) + 
+  geom_bar(position="dodge", stat= "identity")
+
+#Each race has a different number of laps, between 1 and 16
+ggplot(data = marbles_clean, aes(x=race, y=number_laps)) + 
+  geom_bar(position="dodge", stat = "identity")
+
+```
+
+Standarize for comparison across races
+```{r}
+#Mean race time by race
+average_time_race <- marbles_clean %>%
+  group_by(race) %>%
+  summarize(mean_race_time = mean(time_s, na.rm=TRUE))
+
+#Merge this to dataset
+marbles_clean_merged <- left_join(marbles_clean, average_time_race, by = "race")
+
+#Divide each marble's race time by average time/race
+marbles_clean_merged <- marbles_clean_merged %>%
+  mutate(standardized_time = time_s/mean_race_time)
+
+#Get median standaridized time per marble across races to order boxplots
+new_data <- marbles_clean_merged %>% 
+  group_by(marble_name) %>%
+  summarize(median_standardized_time = median(standardized_time, na.rm=TRUE))
+
+#Merge back
+marbles <- left_join(marbles_clean_merged, new_data)
+
+#Visualize individual race times relative to average race times, ordered by median race time
+ggplot(marbles, 
+       aes(x=standardized_time,
+           y=reorder(marble_name, median_standardized_time))) + 
+  geom_boxplot() +
+  labs(title= "Boxplots of Standardized Race Times by Marble Name") + ylab("Marble Name") + xlab("Marble Race Times Relative to Average Race Times")
+```
+
+How is the standardized marble race time associated with the host of the race?
+```{r}
+#Set a seed for reproducibility
+set.seed(4595)
+
+#Split data into train and test, set up cross-validation
+#Using outcome as stratifier
+data_split <- initial_split(marbles, strata = standardized_time)
+training_data <- training(data_split)
+testing_data <- testing(data_split)
+cv_data <- vfold_cv(training_data, strata = standardized_time, av= 5, repeats = 5)
+
+#Recipe
+#Code categorical variable as dummy variable
+fit_recipe <- 
+  recipe(standardized_time ~ host + site, data = training_data) %>%
+  step_dummy(all_nominal())
+```
+
+Model 1: Null Model
+```{r}
+#For a continuous outcome, using RMSE as our performance metric, a null-model that doesn't use any predictor information is one that always just predicts the mean of the data. We'll compute the performance of such a "model" here. It's useful for comparison with the real models. We'll print both numbers here, and then compare with our model results below. Since our performance metric is RMSE, we compute that here with the "model prediction" always just being the mean of the outcomes.
+
+#I have no why I have to put na.rm = TRUE here when there is no missing data
+RMSE_null_train <- sqrt(sum( (training_data$standardized_time - mean(training_data$standardized_time, na.rm=TRUE))^2, na.rm=TRUE)/nrow(training_data))
+RMSE_null_test <- sqrt(sum( (testing_data$standardized_time - mean(testing_data$standardized_time, na.rm=TRUE))^2, na.rm=TRUE)/nrow(testing_data))
+print(RMSE_null_train) #0.028
+print(RMSE_null_test) #0.029
+```
+
+Model 2: tree-based model
+```{r}
+#Model specification:
+tune_spec <- decision_tree(
+    cost_complexity = tune(),
+    tree_depth = tune()) %>%
+  set_engine("rpart") %>%
+  set_mode("regression")
+
+tune_spec
+
+#Tune grid specification:
+#grid_regular() from the dials package chooses sensible values to try for each hyperparameter
+#grid filled with 25 candidate decision tree models 
+tree_grid <-
+  grid_regular(cost_complexity(),
+               tree_depth(),
+               levels = 5)
+
+tree_grid
+
+#Workflow definition
+#Use tune_grid() to fit models at all the different values we chose for each hyperparameter
+#Can these warnings be ignored? 
+#"A correlation computation is required, but "estimate" is constant nd has 0 standard deviation, resulting in a divide by 0"
+tree_wf <- workflow() %>%
+  add_model(tune_spec) %>%
+  add_recipe(fit_recipe)
+
+tree_res <- tree_wf %>%
+  tune_grid(
+    resamples = cv_data,
+    grid = tree_grid
+  ) 
+```
+
+Model 2 evaluation
+```{r}
+#Plot of performance for different tuning parameters
+tree_res %>% 
+  autoplot()
+
+#Get the tuned model that performs best 
+best_tree <- tree_res %>%  
+  select_best(metric = "rmse")
+
+#Finalize workflow with best model
+best_tree_wf <- tree_wf %>% 
+  finalize_workflow(best_tree)
+
+
+#Fit final model to training data and evaluates finalized model on the testing data
+best_tree_fit <- best_tree_wf %>%
+  last_fit(data_split)
+
+#On training data
+best_fit <- best_tree_wf %>% 
+  fit(data = training_data)
+
+best_pred <- predict(best_fit, training_data)
+
+best_tree_fit %>%
+  collect_metrics() #RMSE = 0.0295
+#ADDING THIS PREDICTOR WAS USELESS--PERFORMS LIKE NULL MODEL
+
+#Plot final tree
+rpart.plot(extract_fit_parsnip(best_tree_fit)$fit)
+#Warning message: Cannot retrieve the data used to build the model (so cannot determine roundint and is.binary for the variables)
+
+#Predicted versus observed
+plot(best_pred$.pred,training_data$standardized_time)
+abline(a=0,b=1, col = 'red') #45 degree line, along which the results should fall
+#UHHHHH, WHATTT?
+
+#Residuals
+plot(best_pred$.pred-training_data$standardized_time)
+abline(a=0,b=0, col = 'red') #straight line, along which the results should fall
+```
+
+Model 3: LASSO Model
+```{r}
+#Model
+lasso_model <- linear_reg() %>%
+  set_mode("regression") %>%           
+  set_engine("glmnet") %>%
+  set_args(penalty = tune(), mixture = 1) #mixture = 1 means we use the LASSO model
+
+#workflow
+lasso_wf <- workflow() %>%
+  add_model(lasso_model) %>% 
+  add_recipe(fit_recipe)
+
+#tuning grid
+lasso_reg_grid <- tibble(penalty = 10^seq(-3, 0, length.out = 30))
+
+#tune model
+lasso_tune_res <- lasso_wf %>% 
+  tune_grid(resamples = cv_data,
+            grid = lasso_reg_grid,
+            control = control_grid(save_pred = TRUE)
+            )
+```
+
+Model 3 Evaluation
+```{r}
+#All models failed, so added site as a predictor variable
+#Many warnings...
+
+#see a plot of performance for different tuning parameters
+lasso_tune_res %>% autoplot()
+
+#Get the tuned model that performs best 
+best_lasso <- lasso_tune_res %>%  select_best(metric = "rmse")
+
+# finalize workflow with best model
+best_lasso_wf <- lasso_wf %>% finalize_workflow(best_lasso)
+
+lowest_rmse <- lasso_tune_res %>%
+  select_best("rmse", maximize = FALSE) #ideally, would also choose lowest rmse with highest penalty 
+
+# fitting best performing model
+final_workflow <- 
+  best_lasso_wf %>%
+  finalize_workflow(lowest_rmse)
+
+#final_lasso <- 
+  #final_workflow %>%
+  #fit(data = training_data) #this isn't working and doing last_fit like model 2 gives an error that all models failed. What is going on?
+
+#So, an't do predicted vs. observed and residual plots for this one.
+```
+
+Model 4: Random Forest
+```{r}
+rf_model <- rand_forest() %>%
+  set_args(mtry = tune(),     
+    trees = tune(),
+    min_n = tune()
+  ) %>%
+  #Select the engine/package that underlies the model
+  set_engine("ranger",
+             num.threads = 18, #For some reason for RF, we need to set this in the engine too
+             importance = "permutation") %>%
+  # choose either the continuous regression or binary classification mode
+  set_mode("regression")    
+
+#Workflow
+rf_wf <- workflow() %>%
+  add_model(rf_model) %>% 
+  add_recipe(fit_recipe)
+
+#Tuning
+rf_res <-
+  rf_wf %>%
+  tune_grid(cv_data,
+            grid = 25, #25 candidate models
+            control = 
+              control_grid(save_pred = TRUE))
+#Again, error messages. Missing data in dependent variale--but there isn't!
+
+rf_res %>% 
+  show_best(metric = "rmse") #best rmse is 0.269
+
+autoplot(rf_res) #plots the results of the tuning process
+
+#Get the tuned model that performs best 
+best_rf <- rf_res %>%  
+  select_best(metric = "rmse")
+
+#Finalize workflow with best model
+best_rf_wf <- rf_wf %>% 
+  finalize_workflow(best_rf)
+
+#Fitting best performing model
+#best_rf_fit <- best_rf_wf %>% 
+  #last_fit(data_split) #All models failed...
+
+```
+
+Model 2 (decision tree model) was bad, but it was the only one that didnt' fail, so I choose this as my final model.
+I already applied it to the testing data (last_fit in line 183 trains the model on the training data and evaluates on the testing data). Overall conclusion is I'm confused about all the errors and a bit discouraged. There was no missing data in the dependent variable. And this is the second exercise I get the correlation matrix error.
+
+
+
+

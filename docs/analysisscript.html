@@ -352,8 +352,9 @@ $(document).ready(function () {
 
 <p>Full analysis is here: <a href="https://github.com/Gabriella-Veytsel/Veytsel_MADA_Analysis3" class="uri">https://github.com/Gabriella-Veytsel/Veytsel_MADA_Analysis3</a></p>
 <p>Load needed packages. make sure they are installed.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2) <span class="co">#for plotting</span>
-<span class="kw">library</span>(broom) <span class="co">#for cleaning up output from lm()</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2) <span class="co">#for plotting</span></code></pre></div>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.1.1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(broom) <span class="co">#for cleaning up output from lm()</span></code></pre></div>
 <pre><code>## Warning: package &#39;broom&#39; was built under R version 4.1.1</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(here) <span class="co">#for data loading/saving</span></code></pre></div>
 <pre><code>## Warning: package &#39;here&#39; was built under R version 4.1.1</code></pre>
@@ -361,7 +362,7 @@ $(document).ready(function () {
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse) <span class="co">#tidyr: tidy output</span></code></pre></div>
 <pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 4.1.1</code></pre>
 <pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
-<pre><code>## v tibble  3.1.4     v dplyr   1.0.7
+<pre><code>## v tibble  3.1.5     v dplyr   1.0.7
 ## v tidyr   1.1.4     v stringr 1.4.0
 ## v readr   2.0.1     v forcats 0.5.1
 ## v purrr   0.3.4</code></pre>
@@ -369,6 +370,7 @@ $(document).ready(function () {
 <pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.1.1</code></pre>
 <pre><code>## Warning: package &#39;readr&#39; was built under R version 4.1.1</code></pre>
 <pre><code>## Warning: package &#39;purrr&#39; was built under R version 4.1.1</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.1.1</code></pre>
 <pre><code>## Warning: package &#39;stringr&#39; was built under R version 4.1.1</code></pre>
 <pre><code>## Warning: package &#39;forcats&#39; was built under R version 4.1.1</code></pre>
 <pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
@@ -403,7 +405,7 @@ $(document).ready(function () {
 ## x dplyr::lag()      masks stats::lag()
 ## x yardstick::spec() masks readr::spec()
 ## x recipes::step()   masks stats::step()
-## * Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
+## * Search for functions across packages at https://www.tidymodels.org/find/</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(broom.mixed)</code></pre></div>
 <pre><code>## Warning: package &#39;broom.mixed&#39; was built under R version 4.1.1</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dotwhisker)</code></pre></div>
